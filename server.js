@@ -124,6 +124,22 @@ app.get("/webinars/:slug", async function (request, response){
   });
 })
 
+app.get('/watchlist', async function (req, res) {
+  
+  const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
+  const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
+
+  const watchlistWebinarIds = new Set(watchlistResponseJSON.data.map(item => String(item.text))); 
+
+  // Filter de webinars die in de watchlist staan
+  const webinarsInWatchlist = webinarsResponseJSON.data.filter(webinar => watchlistWebinarIds.has(String(webinar.id)));
+
+  res.render("watchlist.liquid", { 
+    webinars: webinarsInWatchlist, 
+    watchlist: watchlistResponseJSON.data
+  });
+});
+
 
 app.set('port', process.env.PORT || 8000)
 
