@@ -68,9 +68,11 @@ async function fetchJson(url) {
 
 // Algemene links
 const webinarsLink = "https://fdnd-agency.directus.app/items/avl_webinars";
+const categoryLink = "https://fdnd-agency.directus.app/items/avl_categories";
 const contouringsLink = "https://fdnd-agency.directus.app/items/avl_contourings";
-const webinarsField = "?fields=duration,title,slug,date,video,thumbnail,.*.*,speakers.*.*,categories.avl_categories_id.*,resources.*.*";
+const webinarsField = "?fields=id,duration,title,slug,date,video,thumbnail,.*.*,speakers.*.*,categories.avl_categories_id.*,resources.*.*";
 const contouringsField = "?fields=title,image_scan,user_id.fullname,categories.avl_categories_id.*";
+const messagesFilter = "?filter[for][_eq]=Watchlist Amber"
 
 // Route voor url /
 app.get('/', async function (req, res) {
