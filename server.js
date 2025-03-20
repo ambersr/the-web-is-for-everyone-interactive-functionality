@@ -59,6 +59,13 @@ app.post(…, async function (request, response) {
 })
 */
 
+// Functie fetch omzetten naar JSON
+async function fetchJson(url) {
+  const response = await fetch(url);
+  const responseJSON = await response.json();
+  return responseJSON
+}
+
 // Algemene links
 const webinarsLink = "https://fdnd-agency.directus.app/items/avl_webinars";
 const contouringsLink = "https://fdnd-agency.directus.app/items/avl_contourings";
