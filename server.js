@@ -65,6 +65,18 @@ const contouringsLink = "https://fdnd-agency.directus.app/items/avl_contourings"
 const webinarsField = "?fields=duration,title,slug,date,video,thumbnail,.*.*,speakers.*.*,categories.avl_categories_id.*,resources.*.*";
 const contouringsField = "?fields=title,image_scan,user_id.fullname,categories.avl_categories_id.*";
 
+// Route voor url /
+app.get('/', async function (req, res) {
+    // Fetches webinars en categories
+    const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
+    const contouringsResponseJSON = await fetchJson(contouringsLink + contouringsField);
+
+   res.render("index.liquid", { 
+    webinars: webinarsResponseJSON.data,
+    contourings: contouringsResponseJSON.data
+  })
+});
+
 
 app.set('port', process.env.PORT || 8000)
 
