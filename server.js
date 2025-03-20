@@ -101,6 +101,19 @@ app.get("/webinars", async function (req, res){
     });
 })
 
+// Route voor url /webinar/:slug
+app.get("/webinars/:slug", async function (request, response){
+  const slug = request.params.slug
+
+  const webinarResponseJSON = await fetchJson(webinarsLink + `?filter[slug]=${slug}&fields=featured,views,id,description,duration,title,slug,date,thumbnail,video,resources,.*.*,speakers.*.*,resources.*.*,categories.avl_categories_id.*`);
+  const allWebinarsResponseJSON = await fetchJson(webinarsLink + `?fields=title,slug,thumbnail,date,speakers.*`);
+
+  response.render("webinar.liquid", { 
+    webinars: webinarResponseJSON.data,
+    allWebinars: allWebinarsResponseJSON.data
+  });
+})
+
 
 app.set('port', process.env.PORT || 8000)
 
