@@ -1,38 +1,51 @@
-{% render 'partials/head.liquid', title: 'Home' %}
+{% render 'partials/head.liquid', title: 'Watchlist' %}
+{% render 'partials/breadcrumbs.liquid', breadcrumb_title: 'Watchlist', breadcrumb_url: '/watchlist' %}
 
-<ul class="webinars">
-    {% for webinar in webinars %}
-    <li class="webinar">
-        <a href="/webinars/{{ webinar.slug }}">
-            <div class="webinar-img">
-                <img src="https://fdnd-agency.directus.app/assets/{{ webinar.thumbnail }}" alt="" width="50px">
-                <p class="duration">{{ webinar.duration }}</p>
-            </div>
-            <h3>{{ webinar.title | truncatewords: 10 }}</h3>
-            <p class="speaker">
-                {% for speaker in webinar.speakers %}
-                {{ speaker.avl_speakers_id.fullname }}
-                {% endfor %}
-            </p>
+<section class="watchlist-banner">
+    <h1>Watchlist</h1>
+    <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Enim ipsum non egestas; primis luctus cubilia. Donec ut
+        venenatis.</p>
+</section>
 
-            <div>
-                <ul>
-                    {% for categorie in webinar.categories %}
-                    <li>
-                        <p class="categorie-label">{{ categorie.avl_categories_id.name }}</p>
-                    </li>
+<section class="watchlist">
+    <h2>Watch later</h2>
+    <div class="divider"></div>
+
+    <ul class="webinars">
+        {% for webinar in webinars %}
+        <li class="webinar">
+            <a href="/webinars/{{ webinar.slug }}">
+                <div class="webinar-img">
+                    <img src="https://fdnd-agency.directus.app/assets/{{ webinar.thumbnail }}" alt="" width="50px">
+                    <p class="duration">{{ webinar.duration }}</p>
+                </div>
+                <h3>{{ webinar.title | truncatewords: 10 }}</h3>
+                <p class="speaker">
+                    {% for speaker in webinar.speakers %}
+                    {{ speaker.avl_speakers_id.fullname }}
                     {% endfor %}
+                </p>
 
-                    <form method="POST" action="/webinars">
-                        <input type="hidden" name="textField" value="{{ webinar.id }}">
-                        <input type="hidden" name="forField" value="Watchlist Amber">
-                        <button type="submit">Watchlist</button>
-                    </form>
-                </ul>
-            </div>
-        </a>
-    </li>
-    {% endfor %}
-</ul>
+                <div>
+                    <ul>
+                        {% for categorie in webinar.categories %}
+                        <li>
+                            <p class="categorie-label">{{ categorie.avl_categories_id.name }}</p>
+                        </li>
+                        {% endfor %}
+
+                        <form method="POST" action="/webinars">
+                            <input type="hidden" name="textField" value="{{ webinar.id }}">
+                            <input type="hidden" name="forField" value="Watchlist Amber">
+                            <button type="submit">Watchlist</button>
+                        </form>
+                    </ul>
+                </div>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+</section>
 
 {% render 'partials/foot.liquid' %}
