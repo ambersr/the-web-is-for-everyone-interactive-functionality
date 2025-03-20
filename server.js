@@ -140,6 +140,47 @@ app.get('/watchlist', async function (req, res) {
   });
 });
 
+app.post('/watchlist', async function (req, res) {
+  await fetch(messagesLink, {
+    method: "POST",
+    body: JSON.stringify({
+     text: req.body.textField,
+      for: req.body.forField,
+    }),
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8"
+    }
+  });
+  res.redirect(303, '/watchlist');
+});
+
+app.post('/webinars', async function (req, res) {
+  await fetch(messagesLink, {
+    method: "POST",
+    body: JSON.stringify({
+     text: req.body.textField,
+      for: req.body.forField,
+    }),
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8"
+    }
+  });
+  res.redirect(303, '/webinars');
+});
+
+app.post('/', async function (req, res) {
+  await fetch(messagesLink, {
+    method: "POST",
+    body: JSON.stringify({
+     text: req.body.textField,
+      for: req.body.forField,
+    }),
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8"
+    }
+  });
+  res.redirect(303, '/');
+});
 
 app.set('port', process.env.PORT || 8000)
 
