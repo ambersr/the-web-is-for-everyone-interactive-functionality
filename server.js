@@ -67,6 +67,7 @@ async function fetchJson(url) {
 }
 
 // Algemene links
+const messagesLink = "https://fdnd-agency.directus.app/items/avl_messages";
 const webinarsLink = "https://fdnd-agency.directus.app/items/avl_webinars";
 const categoryLink = "https://fdnd-agency.directus.app/items/avl_categories";
 const contouringsLink = "https://fdnd-agency.directus.app/items/avl_contourings";
