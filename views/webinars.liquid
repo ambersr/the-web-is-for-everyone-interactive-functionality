@@ -1,0 +1,73 @@
+{% render 'partials/head.liquid', title: 'Webinars' %}
+
+<section class="webinars-banner">
+    {% render 'partials/breadcrumbs.liquid', breadcrumb_title: 'Webinars', breadcrumb_url: '/webinars' %}
+
+    <h1>Webinars</h1>
+    <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Enim ipsum non egestas; primis luctus cubilia. Donec ut
+        venenatis.</p>
+</section>
+
+<div class="filters">
+    <div class="wrapper-filter">
+        <form class="filter-form">
+            <label class="filter-link">
+                <input type="radio" name="category" value="" {% if not selectedCategory or selectedCategory==""
+                    %}checked{% endif %}> All
+            </label>
+
+            {% for category in categories %}
+            <label class="filter-link">
+                <input type="radio" name="category" value="{{ category.name }}" {% if selectedCategory==category.name
+                    %}checked{% endif %}>
+                {{ category.name }}
+            </label>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+
+<section>
+    <h2>Results</h2>
+    <p>3 webinars</p>
+
+    <ul class="webinars">
+        {% for webinar in webinars %}
+
+        <li class="webinar">
+            <a href="/webinars/{{ webinar.slug }}">
+                <div class="webinar-img">
+                    <img src="https://fdnd-agency.directus.app/assets/{{ webinar.thumbnail }}" alt="" width="50px">
+                    <p class="duration">{{ webinar.duration }}</p>
+                </div>
+                <h3>{{ webinar.title | truncatewords: 10 }}</h3>
+                <p class="speaker">
+                    {% for speaker in webinar.speakers %}
+                    {{ speaker.avl_speakers_id.fullname }}
+                    {% endfor %}
+                </p>
+
+                <div>
+                    <ul>
+                        {% for categorie in webinar.categories %}
+                        <li>
+                            <p class="categorie-label">{{ categorie.avl_categories_id.name }}</p>
+                        </li>
+                        {% endfor %}
+
+                        <form method="POST" action="/webinars">
+                            <input type="hidden" name="textField" value="{{ webinar.id }}">
+                            <input type="hidden" name="forField" value="Watchlist Amber">
+
+                            <button type="submit">Watchlist</button>
+                        </form>
+                    </ul>
+                </div>
+            </a>
+        </li>
+
+        {% endfor %}
+    </ul>
+</section>
+
+{% render 'partials/foot.liquid' %}
