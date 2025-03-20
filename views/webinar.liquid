@@ -1,0 +1,167 @@
+{% render 'partials/head.liquid', title: webinars[0].title %}
+
+<div class="wrapper-webinar-detail">
+    {% for webinar in webinars %}
+
+    <section>
+        {% render 'partials/breadcrumbs.liquid', breadcrumb_title: webinars[0].title, breadcrumb_url: '/webinars/' |
+        append: webinars[0].title | handleize, breadcrumb_parent_title: 'Webinars', breadcrumb_parent_url: '/webinars'
+        %}
+
+        <h1>{{ webinar.title }}</h1>
+        <video controls width="200px">
+            <source src="https://fdnd-agency.directus.app/assets/{{ webinar.video }}" />
+        </video>
+
+        <ul class="info-detail">
+            <li><img src="/assets/visibility.svg" alt="">{{ webinar.views }} views</li>
+            <li><img src="/assets/calendar_month.svg" alt="">{{ webinar.date | date: "%d %b %Y" }}</li>
+        </ul>
+
+        <div>
+            <ul class="category-detail">
+                {% for categorie in webinar.categories %}
+                <li>
+                    <p class="categorie-label">{{ categorie.avl_categories_id.name }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <form method="POST" action="/webinars">
+                <input type="hidden" name="textField" value="{{ webinar.id }}">
+                <input type="hidden" name="forField" value="Watchlist Amber">
+                <button type="submit">Watchlist</button>
+            </form>
+        </div>
+
+        <p>{{ webinar.description }}</p>
+
+        <section class="speaker">
+            <h2>The speaker</h2>
+
+            <ul class="speakers">
+
+                {% for speaker in webinar.speakers %}
+                <li class="speaker">
+                    <div class="left">
+                        <img src="https://fdnd-agency.directus.app/assets/{{ speaker.avl_speakers_id.profile_picture }}"
+                            alt="">
+
+                        <div class="speaker-info">
+                            <h3>{{ speaker.avl_speakers_id.fullname }}</h3>
+                            <p>{{ speaker.avl_speakers_id.entitle }}</p>
+                        </div>
+                    </div>
+
+                    <a href="#">About this speaker</a>
+                </li>
+
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="resources">
+            <h2>Resources</h2>
+
+            <ul class="resources">
+
+                {% if webinar.resources and webinar.resources.size > 0 %}
+                {% for resource in webinar.resources %}
+                <li class="resource">
+                    <div class="left-resource">
+                        <img class="file-icon" src="/assets/pdf-icon.svg" alt="">
+                        <di class="info">
+                            <p>{{ resource.directus_files_id.title }}</p>
+                            <p>{{ resource.directus_files_id.filesize | divided_by: 1024.0 | round: 1 }} KB</p>
+                    </div>
+
+                    <div class="right-resource">
+                        <a class="resource-icon"
+                            href="https://fdnd-agency.directus.app/assets/{{ resource.directus_files_id.filename_disk }}"
+                            target="_blank">
+                            <img src="/assets/eye-icon.svg" alt="Bekijk pdf">
+                        </a>
+                        <a class="resource-icon"
+                            href="https://fdnd-agency.directus.app/assets/{{ resource.directus_files_id.filename_disk }}?download=1"
+                            download="{{ resource.directus_files_id.filename_download }}">
+                            <img src="/assets/download-icon.svg" alt="Download pdf">
+                        </a>
+                    </div>
+                </li>
+
+                {% endfor %}
+
+                {% else %}
+                <p>Er zijn geen resources voor deze webinar beschikbaar.</p>
+                {% endif %}
+
+            </ul>
+        </section>
+
+        <section>
+            <h2>Ask here your question</h2>
+
+            <form class="chat" action="#" method="get">
+                <input class="chat-input" type="text" name="search-webinar"
+                    placeholder="Search for a Webinar or Contouring..">
+                <button class="transcript-link" type="submit"><img src="/assets/search-icon.svg"
+                        alt="Typ hier een comment over de webinar"></button>
+            </form>
+
+            <section class="comments">
+                <h3>Comments</h3>
+                <p>Plaats hier je eerste comment.</p>
+            </section>
+        </section>
+
+    </section>
+
+    <div class="wrapper-webinars">
+        <section class="heading-webinars">
+            <h2>Watch nextwebinars</h2>
+            <a href="#">All webinars</a>
+        </section>
+
+        <div class="webinars-slider">
+            <ul class="webinars">
+                {% for webinar in webinars %}
+                <li class="webinar">
+                    <a href="/webinars/{{ webinar.slug }}">
+                        <div class="webinar-img">
+                            <img src="https://fdnd-agency.directus.app/assets/{{ webinar.thumbnail }}" alt=""
+                                width="50px">
+                            <p class="duration">{{ webinar.duration }}</p>
+                        </div>
+                        <h3>{{ webinar.title | truncatewords: 10 }}</h3>
+                        <p class="speaker">
+                            {% for speaker in webinar.speakers %}
+                            {{ speaker.avl_speakers_id.fullname }}
+                            {% endfor %}
+                        </p>
+
+                        <div>
+                            <ul>
+                                {% for categorie in webinar.categories %}
+                                <li>
+                                    <p class="categorie-label">{{ categorie.avl_categories_id.name }}</p>
+                                </li>
+                                {% endfor %}
+
+                                <form method="POST" action="/webinars">
+                                    <input type="hidden" name="textField" value="{{ webinar.id }}">
+                                    <input type="hidden" name="forField" value="Watchlist Amber">
+                                    <button type="submit">Watchlist</button>
+                                </form>
+                            </ul>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% render 'partials/foot.liquid' %}
