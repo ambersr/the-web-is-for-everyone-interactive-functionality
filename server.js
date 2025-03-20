@@ -77,6 +77,30 @@ app.get('/', async function (req, res) {
   })
 });
 
+// Route voor url /webinars
+app.get("/webinars", async function (req, res){
+ 
+    const categoryFilter = req.query.category || ""; // Haalt categorie uit de URL
+
+    // Fetches webinars en categories
+    const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
+    const categoryResponseJSON = await fetchJson(categoryLink);
+
+    let filteredWebinars = webinarsResponseJSON.data;
+
+     if (categoryFilter) {
+        filteredWebinars = filteredWebinars.filter(webinar =>
+            webinar.categories.some(category => category.avl_categories_id.name === categoryFilter)
+        );
+    }
+
+  res.render('webinars.liquid', { 
+        webinars: filteredWebinars, 
+        categories: categoryResponseJSON.data,
+        selectedCategory: categoryFilter // Zorgt dat de juiste radio button gecheckt blijft
+    });
+})
+
 
 app.set('port', process.env.PORT || 8000)
 
