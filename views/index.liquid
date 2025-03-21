@@ -45,11 +45,22 @@
                             </li>
                             {% endfor %}
 
-                            <form method="POST" action="/webinars">
-                                <input type="hidden" name="textField" value="{{ webinar.id }}">
-                                <input type="hidden" name="forField" value="Watchlist Amber">
-                                <button type="submit">Watchlist</button>
+                            <form method="POST" action="/">
+                                <input type="hidden" name="text"  value="{{ webinar.id }}">
+                            
+                                {% assign isInWatchlist = false %}
+                                {% for item in watchlist %}
+                                {% if item.text == webinar.id %}
+                                {% assign isInWatchlist = true %}
+                                {% endif %}
+                                {% endfor %}
+                            
+                                <button type="submit">
+                                    {% if isInWatchlist %} delete {% else %} add {% endif %}
+                                </button>
                             </form>
+
+
                         </ul>
                     </div>
                 </a>

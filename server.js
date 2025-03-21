@@ -144,7 +144,7 @@ app.post('/watchlist', async function (req, res) {
   await fetch(messagesLink, {
     method: "POST",
     body: JSON.stringify({
-     text: req.body.textField,
+     text: req.body.text,
       for: req.body.forField,
     }),
     headers: {
@@ -158,7 +158,7 @@ app.post('/webinars', async function (req, res) {
   await fetch(messagesLink, {
     method: "POST",
     body: JSON.stringify({
-     text: req.body.textField,
+     text: req.body.text,
       for: req.body.forField,
     }),
     headers: {
@@ -168,19 +168,51 @@ app.post('/webinars', async function (req, res) {
   res.redirect(303, '/webinars');
 });
 
+// via deze route gaan wij de webinars opslaan
 app.post('/', async function (req, res) {
-  await fetch(messagesLink, {
-    method: "POST",
-    body: JSON.stringify({
-     text: req.body.textField,
-      for: req.body.forField,
-    }),
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8"
-    }
-  });
+  console.log("📩 Ontvangen POST-data:", req.body);
+
+  const webinarId = req.body.text;  // Hier zou nu de ID goed moeten binnenkomen!
+  const userWatchlist = "Watchlist Amber";
+
+  if (!webinarId) {
+    console.error("❌ Geen webinarId ontvangen!");
+    return res.redirect(303, '/'); // Stop de functie als er geen ID is
+  }
+
+  const watchlistItems = await fetchJson(`${messagesLink}?filter[text][_eq]=${webinarId}&filter[for][_eq]=${userWatchlist}`);
+
+  if (watchlistItems.data.length > 0) {
+    const itemId = watchlistItems.data[0].id;
+    await fetch(`${messagesLink}/${itemId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8"
+      }
+    });
+    console.log(`🚮 Webinar ${webinarId} verwijderd uit de watchlist.`);
+  } else {
+    await fetch(messagesLink, {
+      method: "POST",
+      body: JSON.stringify({
+        text: webinarId,
+        for: userWatchlist,
+      }),
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8"
+      }
+    });
+    console.log(`✅ Webinar ${webinarId} toegevoegd aan de watchlist.`);
+  }
+
+  const updatedWatchlist = await fetchJson(`${messagesLink}?filter[for][_eq]=${userWatchlist}`);
+  console.log("📜 Actuele watchlist:", updatedWatchlist.data);
+
   res.redirect(303, '/');
 });
+
+
+
 
 app.set('port', process.env.PORT || 8000)
 
