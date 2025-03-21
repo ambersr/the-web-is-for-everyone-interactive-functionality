@@ -33,15 +33,15 @@
                             <p class="categorie-label">{{ categorie.avl_categories_id.name }}</p>
                         </li>
                         {% endfor %}
-
-                        <form method="POST" action="/webinars">
-                            <input type="hidden" name="textField" value="{{ webinar.id }}">
-                            <input type="hidden" name="forField" value="Watchlist Amber">
-                            <button type="submit">Watchlist</button>
-                        </form>
                     </ul>
                 </div>
             </a>
+
+            <form method="POST" action="/webinars">
+                <input type="hidden" name="textField" value="{{ webinar.id }}">
+                <input type="hidden" name="forField" value="Watchlist Amber">
+                <button type="submit">Watchlist</button>
+            </form>
         </li>
         {% endfor %}
     </ul>
