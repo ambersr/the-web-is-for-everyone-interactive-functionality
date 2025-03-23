@@ -103,16 +103,9 @@ app.get('/watchlist', async function (req, res) {
   // Zet de Set om naar een Array zodat Liquid de data correct kan weergeven
   const watchlistArrays = Array.from(watchlistWebinarIds);
 
-app.post('/watchlist', async function (req, res) {
-  await fetch(messagesLink, {
-    method: "POST",
-    body: JSON.stringify({
-     text: req.body.text,
-      for: req.body.forField,
-    }),
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8"
-    }
+  res.render("watchlist.liquid", {
+    webinars: webinarsInWatchlist,
+    watchlistIds: watchlistArrays
   });
   res.redirect(303, '/watchlist');
 });
@@ -141,35 +134,52 @@ app.post('/', async function (req, res) {
   if (!webinarId) {
     console.error("❌ Geen webinarId ontvangen!");
     return res.redirect(303, '/'); // Stop de functie als er geen ID is
+
+
+app.post("/watchlist", async function (req, res) {
+  const { textField, forField } = req.body; // textField is de webinar.id
+
+  try {
+    // Haal de watchlist op
+    const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
+
+    // Check of de webinar al in de watchlist zit
+    const existingItem = watchlistResponseJSON.data.find(item => item.text === textField);
+
+    if (existingItem) {
+      // Verwijder het item als het al bestaat
+      await fetch(`${messagesLink}/${existingItem.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8"
+        }
+      });
+      console.log(`Verwijderd uit watchlist: ${textField}`);
+    } else {
+      // Voeg het item toe als het niet bestaat
+      await fetch(messagesLink, {
+        method: "POST",
+        body: JSON.stringify({
+          text: textField,
+          for: forField
+        }),
+        headers: {
+          "Content-Type": "application/json;charset=UTF-8"
+        }
+      });
+      console.log(`Toegevoegd aan watchlist: ${textField}`);
+    }
+
+    // Stuur de gebruiker terug naar de watchlist pagina
+    res.redirect(303, "/watchlist");
+  } catch (error) {
+    console.error("Fout bij toggle van de watchlist:", error);
+    res.status(500).send("Er is een fout opgetreden.");
+  }
+});
+
   }
 
-  const watchlistItems = await fetchJson(`${messagesLink}?filter[text][_eq]=${webinarId}&filter[for][_eq]=${userWatchlist}`);
-
-  if (watchlistItems.data.length > 0) {
-    const itemId = watchlistItems.data[0].id;
-    await fetch(`${messagesLink}/${itemId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8"
-      }
-    });
-    console.log(`🚮 Webinar ${webinarId} verwijderd uit de watchlist.`);
-  } else {
-    await fetch(messagesLink, {
-      method: "POST",
-      body: JSON.stringify({
-        text: webinarId,
-        for: userWatchlist,
-      }),
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8"
-      }
-    });
-    console.log(`✅ Webinar ${webinarId} toegevoegd aan de watchlist.`);
-  }
-
-  const updatedWatchlist = await fetchJson(`${messagesLink}?filter[for][_eq]=${userWatchlist}`);
-  console.log("📜 Actuele watchlist:", updatedWatchlist.data);
 
   res.redirect(303, '/');
 });
