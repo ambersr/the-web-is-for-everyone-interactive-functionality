@@ -21,7 +21,7 @@ body {
     /* ---------- Kleuren ---------- */
     --primary-background-color: #001432;
     --secondary-background-color: #E5EBF7;
-    --third-background-color-alt: #fff;
+    --third-background-color: #fff;
     --primary-highlight-color: #B6D902;
 
     --primary-text-color: #000A1A;
@@ -204,6 +204,45 @@ a {
         color: var(--secondary-text-color);
         background-color: var(--primary-background-color);
         transition: ease-in-out .2s;
+    }
+}
+
+.profile-link {
+    background-color: var(--third-background-color-alt);
+    color: var(--primary-text-color);
+    border-radius: var(--border-radius-md);
+    border: none;
+    padding: 0;
+    font-family: var(--font-paragraph);
+    transition: ease-in-out .2s;
+    display: flex;
+    flex-direction: column !important;
+
+       @media screen and (min-width: 720px) {
+           color: var(--primary-text-color);
+           border-radius: var(--border-radius-md);
+           border: 1px solid var(--primary-highlight-color);
+           background-color: var(--primary-highlight-color);
+            padding: .8em 1.3em .8em 1.3em;
+            flex-direction: row !important;
+       }
+
+    &:hover {
+        background-color: var(--third-background-color-alt);
+        color: var(--primary-text-color);
+        border-radius: var(--border-radius-md);
+        border: none;
+
+         @media screen and (min-width: 920px) {
+              color: var(--primary-highlight-color);
+              background-color: var(--primary-background-color);
+              border: 1px solid var(--primary-highlight-color);
+              transition: ease-in-out .2s;
+         }
+    }
+
+    &:hover svg path {
+        fill: var(--primary-highlight-color);
     }
 }
 

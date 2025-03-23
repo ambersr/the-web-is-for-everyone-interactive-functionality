@@ -1,0 +1,256 @@
+/* ------------------------------ Navigatie (header) ----------------------------------- */
+
+.main-nav {
+
+    margin: 0;
+    padding: 0;
+
+    .desktop-nav {
+        position: fixed;
+        bottom: 0;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 5em;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #fff;
+        z-index: 99;
+        border-radius: 1em 1em 0em 0em;
+        align-items: flex-start;
+
+        .logo {
+            display: none;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: center;
+
+            ul {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                align-items: flex-end;
+
+                @media screen and (min-width: 720px) {
+                    justify-content: flex-end;
+                    align-items: flex-end;
+                }
+
+                li {
+                    a {
+                        display: flex;
+                        align-items: center;
+                        gap: .1em;
+                        flex-direction: column-reverse;
+
+                        @media screen and (min-width: 720px) {
+                            flex-direction: row;
+                        }
+
+                        svg {
+                            fill: var(--primary-background-color);
+                        }
+
+                        .text {
+                            display: flex;
+                            color: var(--primary-background-color);
+                        }
+
+                        @media screen and (min-width: 720px) {
+
+                            .text {
+                                color: #fff;
+                            }
+
+                            svg {
+                                fill: #fff;
+                                display: none;
+                            }
+
+                            .profile-icon {
+                                display: flex;
+                                fill: var(--primary-background-color);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        @media screen and (min-width: 720px) {
+            position: fixed;
+            top: 0;
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            justify-content: space-between;
+            background-color: var(--primary-background-color);
+            border-radius: 0em 0em 1em 1em;
+
+            .logo {
+                display: flex;
+            }
+
+            nav {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+
+                ul {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 3em;
+                    line-height: unset;
+                    align-items: center;
+
+                    li {
+                        a {
+                            display: flex;
+                            align-items: center;
+                            gap: .5em;
+
+                            .text {
+                                display: flex;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /* ------ Mobile nav ------ */
+    .mobile-nav {
+        position: fixed;
+        top: 0;
+        background-color: var(--primary-background-color);
+        border-radius: 0em 0em 1em 1em;
+        width: 100%;
+        padding: .7em 1em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 8em;
+        }
+
+    }
+}
+
+/* ------------------------------ Footer ----------------------------------- */
+
+footer {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 8em !important;
+    border-radius: 1em 1em 0em 0em;
+
+     @media screen and (min-width: 720px) {
+         padding-bottom: 1em !important;
+     }
+
+    .wrapper-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+
+        @media screen and (min-width: 720px) {
+            flex-direction: row;
+        }
+
+        .info {
+            display: flex;
+            flex-direction: column;
+
+             @media screen and (min-width: 720px) {
+                 width: 33.3%;
+             }
+
+            .logos {
+                display: flex;
+                flex-direction: row;
+
+                img {
+                    width: 9em;
+                }
+            }
+
+            p {
+                color: var(--secondary-text-color);
+            }
+
+        }
+
+        .navigation {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+
+            @media screen and (min-width: 720px) {
+                width: 33.3%;
+                align-items: center;
+            }
+
+            a {
+                color: var(--secondary-text-color);
+            }
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+
+            @media screen and (min-width: 720px) {
+                width: 33.3%;
+            }
+
+            a {
+                color: var(--secondary-text-color);
+            }
+        }
+    }
+
+    .divider {
+        width: 100%;
+        height: .5px;
+        background-color: var(--third-background-color);
+        margin: 2em 0em;
+
+          @media screen and (min-width: 720px) {
+               margin: 5em 0em 1em 0em;
+          }
+    }
+
+    .extra-info {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        @media screen and (min-width: 720px) {
+           justify-content: space-between;
+           align-items: center;
+        }
+
+        p {
+            color: var(--secondary-text-color);
+        }
+        
+        ul {
+            display: flex;
+            flex-direction: row;
+            gap: 1em;
+
+             @media screen and (min-width: 720px) {
+                  gap: 2em;
+             }
+        }
+    }
+}
