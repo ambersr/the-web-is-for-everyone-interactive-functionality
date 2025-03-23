@@ -89,20 +89,19 @@ app.get("/webinars/:slug", async function (request, response){
 })
 
 app.get('/watchlist', async function (req, res) {
-  
   const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
   const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
 
-  const watchlistWebinarIds = new Set(watchlistResponseJSON.data.map(item => String(item.text))); 
+  // Zet de webinar ID's van de watchlist om in een Set
+  const watchlistWebinarIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
 
-  // Filter de webinars die in de watchlist staan
-  const webinarsInWatchlist = webinarsResponseJSON.data.filter(webinar => watchlistWebinarIds.has(String(webinar.id)));
+  // Filter alleen webinars die in de watchlist staan
+  const webinarsInWatchlist = webinarsResponseJSON.data.filter(webinar =>
+    watchlistWebinarIds.has(String(webinar.id))
+  );
 
-  res.render("watchlist.liquid", { 
-    webinars: webinarsInWatchlist, 
-    watchlist: watchlistResponseJSON.data
-  });
-});
+  // Zet de Set om naar een Array zodat Liquid de data correct kan weergeven
+  const watchlistArrays = Array.from(watchlistWebinarIds);
 
 app.post('/watchlist', async function (req, res) {
   await fetch(messagesLink, {
