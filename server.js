@@ -60,6 +60,7 @@ app.get('/', async function (req, res) {
 // Route voor url /webinars
 app.get("/webinars", async function (req, res) {
   const categoryFilter = req.query.category || ""; // Haalt categorie uit de URL
+   const sortOption = req.query.sort || ""; // Maak de standaardwaarde een lege string
 
   // Fetches webinars en categories
   const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
@@ -78,10 +79,18 @@ app.get("/webinars", async function (req, res) {
     );
   }
 
+    // Sorteren op datum
+  filteredWebinars.sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return sortOption === "new-old" ? dateB - dateA : dateA - dateB;
+  });
+
   res.render('webinars.liquid', {
     webinars: filteredWebinars,
     categories: categoryResponseJSON.data,
     selectedCategory: categoryFilter, // Zorgt dat de juiste radio button gecheckt blijft
+    selectedSort: sortOption,
     watchlistIds: watchlistArray
   });
 })
