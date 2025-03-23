@@ -45,21 +45,18 @@
                             </li>
                             {% endfor %}
 
+                            {% assign webinarIdString = webinar.id | string | strip %}
                             <form method="POST" action="/">
-                                <input type="hidden" name="text"  value="{{ webinar.id }}">
-                            
-                                {% assign isInWatchlist = false %}
-                                {% for item in watchlist %}
-                                {% if item.text == webinar.id %}
-                                {% assign isInWatchlist = true %}
-                                {% endif %}
-                                {% endfor %}
-                            
+                                <input type="hidden" name="textField" value="{{ webinar.id }}">
+                                <input type="hidden" name="forField" value="Watchlist Amber">
                                 <button type="submit">
-                                    {% if isInWatchlist %} delete {% else %} add {% endif %}
+                                    {% if watchlistIds contains webinarIdString %}
+                                    ❌ Verwijder uit watchlist
+                                    {% else %}
+                                    ✅ Voeg toe aan watchlist
+                                    {% endif %}
                                 </button>
                             </form>
-
 
                         </ul>
                     </div>

@@ -55,13 +55,20 @@
                         </li>
                         {% endfor %}
 
-                        <form method="POST" action="/webinars">
-                            <input type="hidden" name="textField" value="{{ webinar.id }}">
-                            <input type="hidden" name="forField" value="Watchlist Amber">
 
-                            <button type="submit">Watchlist</button>
-                        </form>
                     </ul>
+                    {% assign webinarIdString = webinar.id | string | strip %}
+                    <form method="POST" action="/">
+                        <input type="hidden" name="textField" value="{{ webinar.id }}">
+                        <input type="hidden" name="forField" value="Watchlist Amber">
+                        <button type="submit">
+                            {% if watchlistIds contains webinarIdString %}
+                            ❌ Verwijder uit watchlist
+                            {% else %}
+                            ✅ Voeg toe aan watchlist
+                            {% endif %}
+                        </button>
+                    </form>
                 </div>
             </a>
         </li>

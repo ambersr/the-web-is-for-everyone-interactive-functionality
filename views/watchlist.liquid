@@ -1,7 +1,8 @@
 {% render 'partials/head.liquid', title: 'Watchlist' %}
-{% render 'partials/breadcrumbs.liquid', breadcrumb_title: 'Watchlist', breadcrumb_url: '/watchlist' %}
 
 <section class="watchlist-banner">
+    {% render 'partials/breadcrumbs.liquid', breadcrumb_title: 'Watchlist', breadcrumb_url: '/watchlist' %}
+
     <h1>Watchlist</h1>
     <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Enim ipsum non egestas; primis luctus cubilia. Donec ut
         venenatis.</p>
@@ -36,12 +37,19 @@
                     </ul>
                 </div>
             </a>
-
-            <form method="POST" action="/webinars">
+            {% assign webinarIdString = webinar.id | string | strip %}
+            <form method="POST" action="/watchlist">
                 <input type="hidden" name="textField" value="{{ webinar.id }}">
                 <input type="hidden" name="forField" value="Watchlist Amber">
-                <button type="submit">Watchlist</button>
+                <button type="submit">
+                    {% if watchlistIds contains webinarIdString %}
+                    ❌ Verwijder uit watchlist
+                    {% else %}
+                    ✅ Voeg toe aan watchlist
+                    {% endif %}
+                </button>
             </form>
+
         </li>
         {% endfor %}
     </ul>
