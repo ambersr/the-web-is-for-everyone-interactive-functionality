@@ -52,37 +52,36 @@ app.get('/', async function (req, res) {
 });
 
 // Route voor url /webinars
-app.get("/webinars", async function (req, res){
- 
-    const categoryFilter = req.query.category || ""; // Haalt categorie uit de URL
+app.get("/webinars", async function (req, res) {
+  const categoryFilter = req.query.category || ""; // Haalt categorie uit de URL
 
-    // Fetches webinars en categories
-    const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
-    const categoryResponseJSON = await fetchJson(categoryLink);
+  // Fetches webinars en categories
+  const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
+  const categoryResponseJSON = await fetchJson(categoryLink);
 
-    let filteredWebinars = webinarsResponseJSON.data;
+  let filteredWebinars = webinarsResponseJSON.data;
 
-     if (categoryFilter) {
-        filteredWebinars = filteredWebinars.filter(webinar =>
-            webinar.categories.some(category => category.avl_categories_id.name === categoryFilter)
-        );
-    }
+  if (categoryFilter) {
+    filteredWebinars = filteredWebinars.filter(webinar =>
+      webinar.categories.some(category => category.avl_categories_id.name === categoryFilter)
+    );
+  }
 
-  res.render('webinars.liquid', { 
-        webinars: filteredWebinars, 
-        categories: categoryResponseJSON.data,
-        selectedCategory: categoryFilter // Zorgt dat de juiste radio button gecheckt blijft
-    });
+  res.render('webinars.liquid', {
+    webinars: filteredWebinars,
+    categories: categoryResponseJSON.data,
+    selectedCategory: categoryFilter // Zorgt dat de juiste radio button gecheckt blijft
+  });
 })
 
 // Route voor url /webinar/:slug
-app.get("/webinars/:slug", async function (request, response){
+app.get("/webinars/:slug", async function (request, response) {
   const slug = request.params.slug
 
   const webinarResponseJSON = await fetchJson(webinarsLink + `?filter[slug]=${slug}&fields=featured,views,id,description,duration,title,slug,date,thumbnail,video,resources,.*.*,speakers.*.*,resources.*.*,categories.avl_categories_id.*`);
   const allWebinarsResponseJSON = await fetchJson(webinarsLink + `?fields=title,slug,thumbnail,date,speakers.*`);
 
-  response.render("webinar.liquid", { 
+  response.render("webinar.liquid", {
     webinars: webinarResponseJSON.data,
     allWebinars: allWebinarsResponseJSON.data
   });
