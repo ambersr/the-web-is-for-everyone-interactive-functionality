@@ -22,48 +22,7 @@
     </section>
 
     <div class="webinars-slider">
-        <ul class="webinars">
-            {% for webinar in webinars %}
-            <li class="webinar">
-                <a href="/webinars/{{ webinar.slug }}">
-                    <div class="webinar-img">
-                        <img src="https://fdnd-agency.directus.app/assets/{{ webinar.thumbnail }}" alt="" width="50px">
-                        <p class="duration">{{ webinar.duration }}</p>
-                    </div>
-                    <h3>{{ webinar.title | truncatewords: 10 }}</h3>
-                    <p class="speaker">
-                        {% for speaker in webinar.speakers %}
-                        {{ speaker.avl_speakers_id.fullname }}
-                        {% endfor %}
-                    </p>
-
-                    <div>
-                        <ul>
-                            {% for categorie in webinar.categories %}
-                            <li>
-                                <p class="categorie-label">{{ categorie.avl_categories_id.name }}</p>
-                            </li>
-                            {% endfor %}
-
-                            {% assign webinarIdString = webinar.id | string | strip %}
-                            <form method="POST" action="/">
-                                <input type="hidden" name="textField" value="{{ webinar.id }}">
-                                <input type="hidden" name="forField" value="Watchlist Amber">
-                                <button type="submit">
-                                    {% if watchlistIds contains webinarIdString %}
-                                    ❌ Verwijder uit watchlist
-                                    {% else %}
-                                    ✅ Voeg toe aan watchlist
-                                    {% endif %}
-                                </button>
-                            </form>
-
-                        </ul>
-                    </div>
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
+        {% render 'partials/webinar-card.liquid', webinars: webinars, watchlistIds: watchlistIds %}
     </div>
 </div>
 

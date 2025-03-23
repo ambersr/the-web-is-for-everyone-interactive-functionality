@@ -53,7 +53,8 @@ app.get('/', async function (req, res) {
   res.render("index.liquid", {
     webinars: webinarsResponseJSON.data,
     contourings: contouringsResponseJSON.data,
-    watchlistIds: watchlistArray
+    watchlistIds: watchlistArray,
+    webinarUrl: '/'
   })
 });
 
@@ -91,7 +92,8 @@ app.get("/webinars", async function (req, res) {
     categories: categoryResponseJSON.data,
     selectedCategory: categoryFilter, // Zorgt dat de juiste radio button gecheckt blijft
     selectedSort: sortOption,
-    watchlistIds: watchlistArray
+    watchlistIds: watchlistArray,
+    webinarUrl: '/webinars'
   });
 })
 
@@ -110,7 +112,8 @@ app.get("/webinars/:slug", async function (request, response) {
   response.render("webinar.liquid", {
     webinars: webinarResponseJSON.data,
     allWebinars: allWebinarsResponseJSON.data,
-    atchlistIds: watchlistArray
+    watchlistIds: watchlistArray,
+    webinarUrl: '/webinars/:slug'
   });
 })
 
@@ -131,14 +134,10 @@ app.get('/watchlist', async function (req, res) {
 
   res.render("watchlist.liquid", {
     webinars: webinarsInWatchlist,
-    watchlistIds: watchlistArrays
+    watchlistIds: watchlistArrays,
+     webinarUrl: '/watchlist'
   });
 });
-
-
-
-
-
 
 app.post("/watchlist", async function (req, res) {
   const { textField, forField } = req.body; // textField is de webinar.id
