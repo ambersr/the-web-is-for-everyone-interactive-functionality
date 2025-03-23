@@ -3,12 +3,12 @@
 
     <li class="webinar">
         <div class="webinar-img">
-            <img src="https://fdnd-agency.directus.app/assets/{{ webinar.thumbnail }}" alt="" width="50px">
+            <img class="banner" src="https://fdnd-agency.directus.app/assets/{{ webinar.thumbnail }}" alt="">
 
             <ul class="category">
                 {% for categorie in webinar.categories %}
                 <li>
-                    <p class="categorie-label">{{ categorie.avl_categories_id.name }}</p>
+                    <p class="category-label">{{ categorie.avl_categories_id.name }}</p>
                 </li>
                 {% endfor %}
             </ul>
@@ -21,20 +21,22 @@
                 <input type="hidden" name="forField" value="Watchlist Amber">
                 <button type="submit">
                     {% if watchlistIds contains webinarIdString %}
-                    ❌ Verwijder uit watchlist
+                    <img src="/assets/remove-from-watchlist-icon.svg" alt="">
+                    Remove from watchlist
                     {% else %}
-                    ✅ Voeg toe aan watchlist
+                    <img src="/assets/add-to-watchlist-icon.svg" alt="">
+                    Add to watchlist
                     {% endif %}
                 </button>
             </form>
         </div>
-        <h3>{{ webinar.title | truncatewords: 10 }}</h3>
+        <h3>{{ webinar.title | truncatewords: 8 }}</h3>
         <p class="speaker">
             {% for speaker in webinar.speakers %}
             {{ speaker.avl_speakers_id.fullname }}
             {% endfor %}
         </p>
-        <a href="/webinars/{{ webinar.slug }}">View webinar</a>
+        <a href="/webinars/{{ webinar.slug }}">View webinar <img src="/assets/arrow-right-webinar.svg" alt=""></a>
     </li>
 
     {% endfor %}
