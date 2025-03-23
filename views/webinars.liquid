@@ -25,6 +25,19 @@
             {% endfor %}
         </form>
     </div>
+
+    <form method="GET" action="/webinars">
+        <span id="sortText">Sort webinars</span>
+        <select name="sort" onchange="this.form.submit()">
+            <!-- Placeholder for when the page is loaded or if no selection is made -->
+            <option value="" disabled {% if selectedSort=="" %}selected{% endif %}>Choose an option</option>
+
+            <!-- Actual sort options -->
+            <option value="new-old" {% if selectedSort=="new-old" %}selected{% endif %}>New to Old</option>
+            <option value="old-new" {% if selectedSort=="old-new" %}selected{% endif %}>Old to New</option>
+        </select>
+        <input type="hidden" name="category" value="{{ selectedCategory }}">
+    </form>
 </div>
 
 <section>
