@@ -41,13 +41,19 @@ const messagesFilter = "?filter[for][_eq]=Watchlist Amber"
 
 // Route voor url /
 app.get('/', async function (req, res) {
-    // Fetches webinars en categories
-    const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
-    const contouringsResponseJSON = await fetchJson(contouringsLink + contouringsField);
+  // Fetches webinars, categories, 
+  const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
+  const contouringsResponseJSON = await fetchJson(contouringsLink + contouringsField);
+  const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
 
-   res.render("index.liquid", { 
+  const watchlistIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
+  // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
+  const watchlistArray = Array.from(watchlistIds);
+
+  res.render("index.liquid", {
     webinars: webinarsResponseJSON.data,
-    contourings: contouringsResponseJSON.data
+    contourings: contouringsResponseJSON.data,
+    watchlistIds: watchlistArray
   })
 });
 
@@ -58,6 +64,11 @@ app.get("/webinars", async function (req, res) {
   // Fetches webinars en categories
   const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
   const categoryResponseJSON = await fetchJson(categoryLink);
+  const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
+
+  const watchlistIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
+  // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
+  const watchlistArray = Array.from(watchlistIds);
 
   let filteredWebinars = webinarsResponseJSON.data;
 
@@ -70,7 +81,8 @@ app.get("/webinars", async function (req, res) {
   res.render('webinars.liquid', {
     webinars: filteredWebinars,
     categories: categoryResponseJSON.data,
-    selectedCategory: categoryFilter // Zorgt dat de juiste radio button gecheckt blijft
+    selectedCategory: categoryFilter, // Zorgt dat de juiste radio button gecheckt blijft
+    watchlistIds: watchlistArray
   });
 })
 
@@ -80,10 +92,16 @@ app.get("/webinars/:slug", async function (request, response) {
 
   const webinarResponseJSON = await fetchJson(webinarsLink + `?filter[slug]=${slug}&fields=featured,views,id,description,duration,title,slug,date,thumbnail,video,resources,.*.*,speakers.*.*,resources.*.*,categories.avl_categories_id.*`);
   const allWebinarsResponseJSON = await fetchJson(webinarsLink + `?fields=title,slug,thumbnail,date,speakers.*`);
+  const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
+
+  const watchlistIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
+  // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
+  const watchlistArray = Array.from(watchlistIds);
 
   response.render("webinar.liquid", {
     webinars: webinarResponseJSON.data,
-    allWebinars: allWebinarsResponseJSON.data
+    allWebinars: allWebinarsResponseJSON.data,
+    atchlistIds: watchlistArray
   });
 })
 
