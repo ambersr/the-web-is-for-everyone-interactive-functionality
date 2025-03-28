@@ -368,4 +368,20 @@ footer {
     }
 }
 
+/* ------------------------------ Fallback webinars ----------------------------------- */
+
+.fallback-webinars {
+    display: flex;
+    flex-direction: column;
+    padding: 2em 0em;
+    width: 30em;
+    gap: 1em;
+
+    img {
+        width: 3em;
+    }
+
+    a {
+        text-decoration: underline;
+    }
 }
