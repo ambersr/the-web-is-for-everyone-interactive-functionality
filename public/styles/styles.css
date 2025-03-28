@@ -349,3 +349,23 @@ footer {
         }
     }
 }
+
+/* ------------------------------ Breadcrumbs ----------------------------------- */
+
+.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+    gap: .5em;
+}
+
+/* ------------------------------ Webinars overzichtspagina ----------------------------------- */
+
+.webinars-banner {
+    padding-top: 9em !important;
+
+    p {
+        width: 45%;
+    }
+}
+
+}
