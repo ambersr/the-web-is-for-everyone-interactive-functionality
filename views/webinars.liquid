@@ -41,7 +41,13 @@
 
 <section class="results-webinar width-top-btm">
     <h2>Results</h2>
-    <p>3 webinars</p>
+    <p class="result-items">
+        {% if filteredCount == 1 %}
+        1 webinar
+        {% else %}
+        {{ filteredCount }} webinars
+        {% endif %}
+    </p>
 
     {% render 'partials/webinar-card.liquid', webinars: webinars, watchlistIds: watchlistIds %}
 

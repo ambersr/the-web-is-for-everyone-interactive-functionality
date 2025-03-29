@@ -87,13 +87,17 @@ app.get("/webinars", async function (req, res) {
     return sortOption === "new-old" ? dateB - dateA : dateA - dateB;
   });
 
+  // Aantal webinars in de gefilterde lijst
+  const filteredCount = filteredWebinars.length;
+
   res.render('webinars.liquid', {
     webinars: filteredWebinars,
     categories: categoryResponseJSON.data,
     selectedCategory: categoryFilter, // Zorgt dat de juiste radio button gecheckt blijft
     selectedSort: sortOption,
     watchlistIds: watchlistArray,
-    webinarUrl: '/webinars'
+    webinarUrl: '/webinars',
+    filteredCount: filteredCount,
   });
 })
 
