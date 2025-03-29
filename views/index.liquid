@@ -4,41 +4,86 @@
     <section class="left-banner-home">
         <p>Collaborate, learn & Innovate.</p>
         <h1>The platform where Radiotherapists connect and innovate</h1>
-        <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Enim ipsum non egestas; primis luctus cubilia. Donec ut
-            venenatis
-            finibus eu; bibendum dictum. Ultricies parturient nascetur. Donec ut venenatis finibus eu; bibendum dictum.
-            Ultricies
-            parturient nascetur.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna
+            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis
+            aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur .</p>
         <a class="green-link" href="">All webinars</a>
     </section>
 
     <img class="banner-home-img" src="/assets/banner-avl.jpeg" alt="">
 </div>
 
-<div class="wrapper-webinars width-top-btm">
+<div class="wrapper-webinars width-top">
     <section class="heading-webinars">
         <h2>Our webinars</h2>
         <a class="green-link" href="#">All webinars</a>
     </section>
 
     <div class="webinars-slider">
-        {% render 'partials/webinar-card.liquid', webinars: webinars, watchlistIds: watchlistIds %}
+        <ul class="webinars">
+            {% for webinar in webinars %}
+
+            <li class="webinar">
+                <div class="webinar-img">
+                    <img class="banner" src="https://fdnd-agency.directus.app/assets/{{ webinar.thumbnail }}" alt="">
+
+                    <ul class="category">
+                        {% for categorie in webinar.categories %}
+                        <li>
+                            <p class="category-label">{{ categorie.avl_categories_id.name }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <p class="duration">{{ webinar.duration }}</p>
+
+                    {% assign webinarIdString = webinar.id | string | strip %}
+                    <form method="POST" action="{{ webinarUrl }}">
+                        <input type="hidden" name="textField" value="{{ webinar.id }}">
+                        <input type="hidden" name="forField" value="Watchlist Amber">
+                        <button type="submit">
+                            {% if watchlistIds contains webinarIdString %}
+                            <img src="/assets/remove-from-watchlist-icon.svg" alt="">
+                            Remove from watchlist
+                            {% else %}
+                            <img src="/assets/add-to-watchlist-icon.svg" alt="">
+                            Add to watchlist
+                            {% endif %}
+                        </button>
+                    </form>
+                </div>
+                <h3>{{ webinar.title | truncatewords: 8 }}</h3>
+                <p class="speaker">
+                    {% for speaker in webinar.speakers %}
+                    {{ speaker.avl_speakers_id.fullname }}
+                    {% endfor %}
+                </p>
+                <a href="/webinars/{{ webinar.slug }}">View webinar <img src="/assets/arrow-right-webinar.svg"
+                        alt=""></a>
+            </li>
+
+            {% endfor %}
+        </ul>
     </div>
 </div>
 
 <div class="divider"></div>
 
-<div class="partner-home width-btm">
+<div class="partner-home width">
     <img class="banner-partner-img" src="/assets/banner-avl.jpeg" alt="">
 
     <section class="left-partner">
         <p>Partnership</p>
         <h2>The partnership between the Netherlands and Indonesia</h2>
-        <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Enim ipsum non egestas; primis luctus cubilia. Donec ut
-            venenatis
-            finibus eu; bibendum dictum. Ultricies parturient nascetur. Donec ut venenatis finibus eu; bibendum dictum.
-            Ultricies
-            parturient nascetur.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna
+            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis
+            aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+            sint
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <a class="green-link" href="">All webinars</a>
     </section>
 </div>
@@ -56,22 +101,26 @@
         {% for contouring in contourings %}
 
         <li class="contouring">
-                <img class="img-scan" src="https://fdnd-agency.directus.app/assets/{{ contouring.image_scan }}"
-                    alt="{{ contouring.title }}">
-                <ul class="categories-contourings">
-                    {% for categorie in contouring.categories %}
-                    <li class="category">
-                        <p class="categorie-label">{{ categorie.avl_categories_id.name }}</p>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <h3>{{ contouring.title }}</h3>
-                <p class="user">{{ contouring.user_id.fullname }}</p>
-                <a class="arrow-link" href="#">Bekijk contouring <img src="/assets/arrow-right-webinar.svg" alt=""></a>
+            <img class="img-scan" src="https://fdnd-agency.directus.app/assets/{{ contouring.image_scan }}"
+                alt="{{ contouring.title }}">
+            <ul class="categories-contourings">
+                {% for categorie in contouring.categories %}
+                <li class="category">
+                    <p class="categorie-label">{{ categorie.avl_categories_id.name }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+            <h3>{{ contouring.title }}</h3>
+            <p class="user">{{ contouring.user_id.fullname }}</p>
+            <a class="arrow-link" href="#">Bekijk contouring <img src="/assets/arrow-right-webinar.svg" alt=""></a>
         </li>
 
         {% endfor %}
     </ul>
 </div>
+
+<form method="POST" action="/watchlist/delete-all">
+    <button type="submit" class="remove-all">Verwijder alles uit Watchlist</button>
+</form>
 
 {% render 'partials/foot.liquid' %}
