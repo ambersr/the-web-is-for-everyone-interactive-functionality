@@ -12,12 +12,23 @@
     <h2>Watch later</h2>
     <div class="divider width"></div>
 
-    {% if webinars and webinars.size > 0 %}
+    {% if error %}
+    <div class="fallback-webinars">
+        <img src="/assets/error-icon.svg" alt="Error Icon">
+        <p>Er is een fout opgetreden bij het laden van je webinars. Ga terug naar alle webinars.</p>
+        <a class="green-link" href="/webinars">Webinars</a>
+    </div>
+
+    {% elsif webinars and webinars.size > 0 %}
     {% render 'partials/webinar-card.liquid', webinars: webinars, watchlistIds: watchlistIds %}
     {% else %}
+
     <div class="fallback-webinars">
-        <img src="/assets/no-webinars-icon.svg" alt="">
-        <p>There are no webinars added to your watch later list. Go to <a href="/webinars">webinars</a> to add some to your watchlist.</p>
+        <img src="/assets/no-webinars-icon.svg" alt="No Webinars Icon">
+        <p>Er zijn geen webinars toegevoegd aan je watchlist. Ga naar webinars om een webinar aan
+            je
+            watchlist toe te voegen.</p>
+        <a class="green-link" href="/webinars">Webinars</a>
     </div>
     {% endif %}
 </section>
