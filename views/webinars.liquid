@@ -1,6 +1,6 @@
 {% render 'partials/head.liquid', title: 'Webinars' %}
 
-<section class="webinars-banner width-top-btm secondary-background">
+<section class="standard-banner width-top-btm secondary-background">
     {% render 'partials/breadcrumbs.liquid', breadcrumb_title: 'Webinars', breadcrumb_url: '/webinars' %}
 
     <h1>Webinars</h1>
@@ -9,36 +9,35 @@
 </section>
 
 <div class="filters width-top">
-    <div class="wrapper-filter">
-        <form class="filter-form">
-            <label class="filter-link">
-                <input type="radio" name="category" value="" {% if not selectedCategory or selectedCategory==""
-                    %}checked{% endif %}> All
-            </label>
 
-            {% for category in categories %}
-            <label class="filter-link">
-                <input type="radio" name="category" value="{{ category.name }}" {% if selectedCategory==category.name
-                    %}checked{% endif %}>
-                {{ category.name }}
-            </label>
-            {% endfor %}
-        </form>
-    </div>
+    <form class="sort-filter" method="GET" action="/webinars">
+        <div class="filter-webinar">
+            <p>Filter by category:</p>
+            <!-- Categorie Filter -->
+            <select name="category" id="category" class="filter-select">
+                <option value="" {% if not selectedCategory or selectedCategory=="" %}selected{% endif %}>All</option>
+                {% for category in categories %}
+                <option value="{{ category.name }}" {% if selectedCategory==category.name %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
 
-    <form method="GET" action="/webinars">
-        <span id="sortText">Sort webinars</span>
-        <select name="sort" onchange="this.form.submit()">
-            <!-- Placeholder for when the page is loaded or if no selection is made -->
-            <option value="" disabled {% if selectedSort=="" %}selected{% endif %}>Choose an option</option>
+        <div class="filter-webinar">
+            <p>Sort webinars:</p>
+            <!-- Sorteer Filter -->
+            <select name="sort" class="filter-select">
+                <option value="new-old" {% if selectedSort=="new-old" %}selected{% endif %}>New to Old</option>
+                <option value="old-new" {% if selectedSort=="old-new" %}selected{% endif %}>Old to New</option>
+            </select>
+        </div>
 
-            <!-- Actual sort options -->
-            <option value="new-old" {% if selectedSort=="new-old" %}selected{% endif %}>New to Old</option>
-            <option value="old-new" {% if selectedSort=="old-new" %}selected{% endif %}>Old to New</option>
-        </select>
-        <input type="hidden" name="category" value="{{ selectedCategory }}">
+        <!-- Submit Button -->
+        <button class="green-link" type="submit">Filter</button>
     </form>
 </div>
+
 
 <section class="results-webinar width-top-btm">
     <h2>Results</h2>

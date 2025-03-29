@@ -61,7 +61,7 @@ app.get('/', async function (req, res) {
 // Route voor url /webinars
 app.get("/webinars", async function (req, res) {
   const categoryFilter = req.query.category || ""; // Haalt categorie uit de URL
-   const sortOption = req.query.sort || ""; // Maak de standaardwaarde een lege string
+  const sortOption = req.query.sort || "new-old"; // Zet standaard de filter van nieuw naar oud
 
   // Fetches webinars en categories
   const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
@@ -80,7 +80,7 @@ app.get("/webinars", async function (req, res) {
     );
   }
 
-    // Sorteren op datum
+  // Sorteren op datum
   filteredWebinars.sort((a, b) => {
     const dateA = new Date(a.date);
     const dateB = new Date(b.date);
