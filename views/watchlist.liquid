@@ -1,6 +1,6 @@
 {% render 'partials/head.liquid', title: 'Watchlist' %}
 
-<section class="watchlist-banner">
+<section class="standard-banner secondary-background width-top-btm">
     {% render 'partials/breadcrumbs.liquid', breadcrumb_title: 'Watchlist', breadcrumb_url: '/watchlist' %}
 
     <h1>Watchlist</h1>
@@ -10,7 +10,7 @@
 
 <section class="watchlist width-top-btm">
     <h2>Watch later</h2>
-    <div class="divider"></div>
+    <div class="divider width"></div>
 
     {% if webinars and webinars.size > 0 %}
     {% render 'partials/webinar-card.liquid', webinars: webinars, watchlistIds: watchlistIds %}
