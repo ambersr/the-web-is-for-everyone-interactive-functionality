@@ -154,6 +154,11 @@ input {
     }
 }
 
+label {
+    font-size: clamp(1rem, 1rem + 0vw, 1rem);
+    font-family: var(--font-paragraph);
+}
+
 .search {
     width: 100%;
 }
@@ -197,8 +202,10 @@ a {
     background-color: var(--primary-highlight-color);
     color: var(--primary-text-color);
     border-radius: var(--border-radius-md);
-    padding: .8em 1.3em .8em 1.3em;
+    padding: 1em 1.3em 1em 1.3em;
     font-family: var(--font-paragraph);
+    height: 3.2em;
+    display: inline-block;
 
     &:hover {
         color: var(--secondary-text-color);
@@ -218,31 +225,44 @@ a {
     display: flex;
     flex-direction: column !important;
 
-       @media screen and (min-width: 720px) {
-           color: var(--primary-text-color);
-           border-radius: var(--border-radius-md);
-           border: 1px solid var(--primary-highlight-color);
-           background-color: var(--primary-highlight-color);
-            padding: .8em 1.3em .8em 1.3em;
-            flex-direction: row !important;
-       }
+    @media screen and (min-width: 720px) {
+        color: var(--primary-text-color);
+        border-radius: var(--border-radius-md);
+        border: 1px solid var(--primary-highlight-color);
+        background-color: var(--primary-highlight-color);
+        padding: .8em 1.3em .8em 1.3em;
+        flex-direction: row !important;
+    }
 
     &:hover {
         background-color: var(--third-background-color-alt);
-        color: var(--primary-text-color);
+        color: var(--primary-highlight-color);
         border-radius: var(--border-radius-md);
-        border: none;
+        border: 1px solid var(--primary-highlight-color);
 
-         @media screen and (min-width: 920px) {
-              color: var(--primary-highlight-color);
-              background-color: var(--primary-background-color);
-              border: 1px solid var(--primary-highlight-color);
-              transition: ease-in-out .2s;
-         }
+        @media screen and (min-width: 920px) {
+            color: var(--primary-highlight-color);
+            background-color: var(--primary-background-color);
+            border: 1px solid var(--primary-highlight-color);
+            transition: ease-in-out .2s;
+        }
     }
 
     &:hover svg path {
         fill: var(--primary-highlight-color);
+    }
+}
+
+.arrow-link {
+    display: flex;
+    flex-direction: row;
+    gap: .5em;
+    align-items: center;
+    transition: .2s ease-in-out;
+
+    &:hover img {
+        translate: 40% 0%;
+        transition: .2s ease-in-out;
     }
 }
 
