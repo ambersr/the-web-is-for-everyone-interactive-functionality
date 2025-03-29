@@ -292,7 +292,8 @@ footer {
                 left: .8em;
 
                 .category-label {
-                    background-color: var(--secondary-background-color);
+                    background-color: var(--primary-background-color);
+                    color: var(--secondary-text-color);
                     display: inline-block;
                     padding: .2em .6em;
                     border-radius: var(--border-radius-sm);
@@ -366,10 +367,21 @@ footer {
 /* ------------------------------ Webinars overzichtspagina ----------------------------------- */
 
 .standard-banner {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
     padding-top: 8em !important;
 
+    @media screen and (min-width: 720px) {
+         padding-top: 9em !important;
+    }
+    
     p {
         width: 100%;
+
+        @media screen and (min-width: 720px) {
+            width: 40%;
+        }
     }
 }
 
@@ -381,7 +393,7 @@ footer {
     .sort-filter {
         display: flex;
         flex-direction: row;
-         flex-wrap: wrap;
+        flex-wrap: wrap;
         gap: 1em;
         align-items: flex-end;
 
@@ -405,6 +417,12 @@ footer {
             gap: 1em;
         }
     }
+}
+
+.results-webinar {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 /* ------------------------------ Fallback webinars ----------------------------------- */
@@ -433,16 +451,31 @@ footer {
     padding-top: 8em !important;
     gap: 1em;
 
+    @media screen and (min-width: 720px) {
+        padding-top: 9em !important;
+        flex-direction: row;
+        gap: 5em;
+    }
+
     .left-banner-home {
         display: flex;
         flex-wrap: wrap;
         gap: 1em;
+
+        @media screen and (min-width: 720px) {
+            width: 50%;
+        }
     }
 
     .banner-home-img {
         height: 20em;
         object-fit: cover;
         border-radius: var(--border-radius-md);
+
+        @media screen and (min-width: 720px) {
+            width: 45%;
+            height: unset;
+        }
     }
 }
 
@@ -456,12 +489,32 @@ footer {
         justify-content: space-between;
         gap: 1em;
     }
+
+    .webinars-slider {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+
+        .webinars {
+            display: flex;
+            flex-direction: row;
+            min-width: max-content;
+
+            .webinar {
+                width: 24em;
+            }
+        }
+    }
 }
 
 .partner-home {
     display: flex;
     flex-direction: column-reverse;
     gap: 1em;
+
+     @media screen and (min-width: 720px) {
+         flex-direction: row;
+         gap: 5em;
+     }
 
     .left-partner {
         display: flex;
@@ -473,6 +526,29 @@ footer {
         height: 20em;
         object-fit: cover;
         border-radius: var(--border-radius-md);
+
+        @media screen and (min-width: 720px) {
+            width: 45%;
+            height: unset;
+        }
+    }
+}
+
+.divider {
+    height: 1px;
+    background-color: #c8c8c8;
+    margin: 3.5em 1em 3.5em 1em;
+
+    @media screen and (min-width: 920px) {
+        margin: 4.5em 3em 4.5em 3em;
+    }
+
+    @media screen and (min-width: 1120px) {
+        margin: 5em 7em 5em 7em;
+    }
+
+    @media screen and (min-width: 1600px) {
+        margin: 4em 4em 4em 4em;
     }
 }
 
@@ -492,6 +568,10 @@ footer {
         display: flex;
         flex-direction: column;
         gap: 1em;
+
+         @media screen and (min-width: 720px) {
+            flex-direction: row;
+         }
 
         .contouring {
             position: relative;
