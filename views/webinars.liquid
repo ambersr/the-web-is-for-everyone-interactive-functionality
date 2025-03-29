@@ -49,6 +49,11 @@
         {% endif %}
     </p>
 
+{% if error %}
+<div class="fallback-category">
+    <img src="/assets/error-icon.svg" alt="Error Icon">
+    <p>Oops, something went wrong. Try to reload the page or view other categories.</p>
+</div>
     {% elsif filteredCount > 0 %}
     {% render 'partials/webinar-card.liquid', webinars: webinars, watchlistIds: watchlistIds %}
     {% else %}
