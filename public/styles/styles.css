@@ -449,10 +449,25 @@ footer {
     img {
         width: 3em;
     }
+}
 
-    a {
-        text-decoration: underline;
+
+.fallback-category {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+
+    p {
+        width: 100%;
+
+        @media screen and (min-width: 720px) {
+            width: 25em;
+        }
     }
+
+img {
+    width: 3em;
+}
 }
 
 /* ------------------------------ Home ----------------------------------- */

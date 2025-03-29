@@ -38,7 +38,7 @@
     </form>
 </div>
 
-
+{% assign error = true %}
 <section class="results-webinar width-top-btm">
     <h2>Results</h2>
     <p class="result-items">
@@ -49,7 +49,16 @@
         {% endif %}
     </p>
 
+    {% elsif filteredCount > 0 %}
     {% render 'partials/webinar-card.liquid', webinars: webinars, watchlistIds: watchlistIds %}
+    {% else %}
+    <div class="fallback-category">
+        <p>There are no webinars available for the categorie: {{ selectedCategory }}
+
+        View other categories for your interests.
+        </p>
+    </div>
+    {% endif %}
 
 </section>
 
