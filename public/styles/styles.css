@@ -481,7 +481,7 @@ select {
     background-position: right 1em center;
     background-repeat: no-repeat;
     background-size: 1em 1em;
-     cursor: pointer;
+    cursor: pointer;
 }
 
 @supports not (appearance: none) {
@@ -692,6 +692,10 @@ select {
         height: unset;
     }
 
+    @supports not (gap: 1em) {
+        .banner-home-img {
+            height: 22em;
+        }
 
         .left-banner-home {
             padding-right: 4em;
@@ -724,6 +728,9 @@ select {
         grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
     }
 
+    @supports not (gap: 1em) {
+        .img-scan {
+            padding-top: 6em;
         }
     }
 }
