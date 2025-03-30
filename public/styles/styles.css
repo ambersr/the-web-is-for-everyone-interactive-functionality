@@ -717,15 +717,13 @@ select {
 
 /* ------------------------------ Watchlist ----------------------------------- */
 
-.watchlist {
-    .divider {
-        padding: 0 !important;
-        height: 1px;
-        background-color: rgb(221, 221, 221);
-        width: 100%;
-        margin: 2em 0em 1em 0em;
-    }
-}}
+.divider {
+    padding: 0 !important;
+    height: 1px;
+    background-color: rgb(221, 221, 221);
+    width: 100%;
+    margin: 2em 0em 1em 0em;
+}
 
 /* ------------------------------ Error ----------------------------------- */
 
