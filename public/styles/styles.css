@@ -302,6 +302,13 @@ footer {
     gap: 1em;
 }
 
+@supports not (gap: 1em) {
+
+    .webinar-img {
+        margin-bottom: 1em;
+    }
+}
+
 .webinar-img {
     position: relative;
 }
@@ -357,6 +364,13 @@ form .watchlist-btn {
     height: 1.3em;
 }
 
+@supports not (gap: .5em) {
+   .watchlist-btn img {
+       padding-left: .5em;
+       width: 1.5em;
+       height: 1.5em;
+   }
+}
 
 .webinar h3 {
     padding-left: .5em;
@@ -375,9 +389,21 @@ form .watchlist-btn {
     transition: .2s ease-in-out;
 }
 
+@supports not (gap: .5em) {
+    .webinar a img {
+        padding-left: .5em;
+    }
+}
+
 .webinar a:hover img {
     translate: .7em 0em;
     transition: .2s ease-in-out;
+}
+
+@supports not (translate: .7em 0em) {
+   .webinar a:hover img {
+       padding-left: 1em;
+   }
 }
 
 /* ------------------------------ Breadcrumbs ----------------------------------- */
