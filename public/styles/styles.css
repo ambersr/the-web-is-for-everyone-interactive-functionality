@@ -223,6 +223,13 @@ footer {
     gap: 1em;
 }
 
+ @supports not (gap: 1em) {
+    .navigation ul,
+    .contact-info ul {
+         margin-top: 1em;
+     }
+ }
+
 /* Voor schermen groter dan 720px */
 @media screen and (min-width: 720px) {
     footer {
