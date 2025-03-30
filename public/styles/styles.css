@@ -96,6 +96,10 @@
         display: flex;
     }
 
+    .main-nav .desktop-nav .logo img {
+        height: 55px;
+    }
+
     .main-nav .desktop-nav nav {
         display: flex;
         align-items: center;
@@ -109,6 +113,12 @@
         line-height: unset;
         align-items: center;
     }
+
+      @supports not (gap: 3em) {
+          .main-nav .desktop-nav nav ul li {
+              margin-left: 2em;
+          }
+      }
 
     .main-nav .desktop-nav nav ul li a {
         display: flex;
