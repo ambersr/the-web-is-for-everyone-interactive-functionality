@@ -429,16 +429,17 @@ form .watchlist-btn {
     padding-top: 8em !important;
 }
 
-    @media screen and (min-width: 720px) {
-         padding-top: 9em !important;
-    }
-    
-    p {
-        width: 100%;
+.standard-banner p {
+    width: 100%;
+}
 
-        @media screen and (min-width: 720px) {
-            width: 40%;
-        }
+@media screen and (min-width: 720px) {
+    .standard-banner {
+        padding-top: 9em !important;
+    }
+
+    .standard-banner p {
+        width: 40%;
     }
 }
 
@@ -446,34 +447,34 @@ form .watchlist-btn {
     display: flex;
     flex-direction: row;
     gap: 1em;
+}
 
-    .sort-filter {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1em;
-        align-items: flex-end;
+.sort-filter {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+    align-items: flex-end;
+}
 
-        select {
-            background-color: var(--third-background-color);
-            border-radius: var(--border-radius-md);
-            border: 1px solid var(--primary-background-color);
-            color: var(--primary-text-color);
-            transition: .2s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: .9em 1em;
-            font-size: clamp(1rem, 1rem + 0vw, 1rem);
-            font-family: var(--font-paragraph);
-        }
+select {
+    background-color: var(--third-background-color);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--primary-background-color);
+    color: var(--primary-text-color);
+    transition: .2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .9em 1em;
+    font-size: clamp(1rem, 1rem + 0vw, 1rem);
+    font-family: var(--font-paragraph);
+}
 
-        .filter-webinar {
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-        }
-    }
+.filter-webinar {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .results-webinar {
@@ -522,9 +523,9 @@ form .watchlist-btn {
         }
     }
 
-img {
-    width: 3em;
-}
+    img {
+        width: 3em;
+    }
 }
 
 /* ------------------------------ Home ----------------------------------- */
