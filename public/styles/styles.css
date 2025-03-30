@@ -114,11 +114,11 @@
         align-items: center;
     }
 
-      @supports not (gap: 3em) {
-          .main-nav .desktop-nav nav ul li {
-              margin-left: 2em;
-          }
-      }
+    @supports not (gap: 3em) {
+        .main-nav .desktop-nav nav ul li {
+            margin-left: 2em;
+        }
+    }
 
     .main-nav .desktop-nav nav ul li a {
         display: flex;
