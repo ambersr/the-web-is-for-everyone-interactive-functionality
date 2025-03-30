@@ -321,6 +321,12 @@ footer {
     display: block;
 }
 
+@supports not (gap: 1em) {
+   .banner {
+       padding-top: 6em;
+   }
+}
+
 .category {
     position: absolute;
     bottom: .8em;

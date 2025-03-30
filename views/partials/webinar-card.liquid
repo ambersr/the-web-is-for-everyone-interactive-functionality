@@ -3,7 +3,7 @@
 
     <li class="webinar">
         <div class="webinar-img">
-            <img class="banner" src="https://fdnd-agency.directus.app/assets/{{ webinar.thumbnail }}" alt="">
+            <img class="banner" src="https://fdnd-agency.directus.app/assets/{{ webinar.thumbnail }}" alt="{{ webinar.title }}">
 
             <ul class="category">
                 {% for categorie in webinar.categories %}
@@ -19,7 +19,7 @@
             <form method="POST" action="{{ webinarUrl }}">
                 <input type="hidden" name="textField" value="{{ webinar.id }}">
                 <input type="hidden" name="forField" value="Watchlist Amber">
-                <button type="submit">
+                <button class="watchlist-btn" type="submit">
                     {% if watchlistIds contains webinarIdString %}
                     <img src="/assets/remove-from-watchlist-icon.svg" alt="">
                     Remove from watchlist
