@@ -322,9 +322,9 @@ footer {
 }
 
 @supports not (gap: 1em) {
-   .banner {
-       padding-top: 6em;
-   }
+    .banner {
+        padding-top: 6em;
+    }
 }
 
 .category {
@@ -371,11 +371,11 @@ form .watchlist-btn {
 }
 
 @supports not (gap: .5em) {
-   .watchlist-btn img {
-       padding-left: .5em;
-       width: 1.5em;
-       height: 1.5em;
-   }
+    .watchlist-btn img {
+        padding-left: .5em;
+        width: 1.5em;
+        height: 1.5em;
+    }
 }
 
 .webinar h3 {
@@ -407,9 +407,9 @@ form .watchlist-btn {
 }
 
 @supports not (translate: .7em 0em) {
-   .webinar a:hover img {
-       padding-left: 1em;
-   }
+    .webinar a:hover img {
+        padding-left: 1em;
+    }
 }
 
 /* ------------------------------ Breadcrumbs ----------------------------------- */
@@ -418,6 +418,12 @@ form .watchlist-btn {
     display: flex;
     flex-direction: row;
     gap: .5em;
+}
+
+@supports not (gap: .5em) {
+    .breadcrumbs .first {
+        padding-right: .5em;
+    }
 }
 
 /* ------------------------------ Webinars overzichtspagina ----------------------------------- */
@@ -458,23 +464,42 @@ form .watchlist-btn {
 }
 
 select {
-    background-color: var(--third-background-color);
+    background-color: var(--third-background-color, #fff);
     border-radius: var(--border-radius-md);
-    border: 1px solid var(--primary-background-color);
-    color: var(--primary-text-color);
+    border: 1px solid var(--primary-background-color, #001432);
+    color: var(--primary-text-color, #000A1A);
     transition: .2s ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: .9em 1em;
-    font-size: clamp(1rem, 1rem + 0vw, 1rem);
+    font-size: 16px;
     font-family: var(--font-paragraph);
+    appearance: none;
+    width: 10em;
+    background-image: url('/assets/chevron-down.svg');
+    background-position: right 1em center;
+    background-repeat: no-repeat;
+    background-size: 1em 1em;
+     cursor: pointer;
+}
+
+@supports not (appearance: none) {
+    select {
+        -webkit-appearance: none;
+    }
 }
 
 .filter-webinar {
     display: flex;
     flex-direction: column;
     gap: 1em;
+}
+
+@supports not (gap: 1em) {
+    .filter-webinar {
+        padding-right: 1em;
+    }
 }
 
 .results-webinar {
