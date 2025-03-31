@@ -591,14 +591,13 @@ select {
     /* -webkit-overflow-scrolling: touch; */
 }
 
-
-.webinars {
+.webinars-slider.webinars {
     display: flex;
     flex-direction: row;
     min-width: max-content;
 }
 
-.webinar {
+.webinars-slider.webinar {
     width: 24em;
 }
 
