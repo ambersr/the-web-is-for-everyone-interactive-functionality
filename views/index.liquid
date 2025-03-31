@@ -40,16 +40,18 @@
 
                     <p class="duration">{{ webinar.duration }}</p>
 
-                    {% assign webinarIdString = webinar.id | string | strip %}
                     <form method="POST" action="{{ webinarUrl }}">
                         <input type="hidden" name="textField" value="{{ webinar.id }}">
                         <input type="hidden" name="forField" value="Watchlist Amber">
+
+                        {% assign webinarIdString = webinar.id %}
+
                         <button class="watchlist-btn" type="submit">
                             {% if watchlistIds contains webinarIdString %}
-                            <img src="/assets/remove-from-watchlist-icon.svg" alt="">
+                            <img src="/assets/remove-from-watchlist-icon.svg" alt="Remove from watchlist">
                             Remove from watchlist
                             {% else %}
-                            <img src="/assets/add-to-watchlist-icon.svg" alt="">
+                            <img src="/assets/add-to-watchlist-icon.svg" alt="Add to watchlist">
                             Add to watchlist
                             {% endif %}
                         </button>
