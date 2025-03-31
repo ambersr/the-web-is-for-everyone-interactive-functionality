@@ -48,18 +48,19 @@
         {% endif %}
     </p>
 
-{% if error %}
-<div class="fallback-category">
-    <img src="/assets/error-icon.svg" alt="Error Icon">
-    <p>Oops, something went wrong. Try to reload the page or view other categories.</p>
-</div>
+    {% comment %} {% assign error = true %} {% endcomment %}
+    {% if error %}
+    <div class="fallback-category">
+        <img src="/assets/error-icon.svg" alt="Error Icon">
+        <p>Oops, something went wrong. Try to reload the page or view other categories.</p>
+    </div>
     {% elsif filteredCount > 0 %}
     {% render 'partials/webinar-card.liquid', webinars: webinars, watchlistIds: watchlistIds %}
     {% else %}
     <div class="fallback-category">
         <p>There are no webinars available for the categorie: {{ selectedCategory }}
 
-        View other categories for your interests.
+            View other categories for your interests.
         </p>
     </div>
     {% endif %}
