@@ -615,13 +615,14 @@ select {
     /* -webkit-overflow-scrolling: touch; */
 }
 
-.webinars-slider.webinars {
+.webinars-second {
     display: flex;
     flex-direction: row;
+    gap: 1em;
     min-width: max-content;
 }
 
-.webinars-slider.webinar {
+.webinars-second .webinar {
     width: 24em;
 }
 
