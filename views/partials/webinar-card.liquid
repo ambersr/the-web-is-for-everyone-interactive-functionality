@@ -16,8 +16,8 @@
 
             <p class="duration">{{ webinar.duration }}</p>
 
-            {% assign webinarIdString = webinar.id | string | strip %}
-            <form method="POST" action="{{ webinarUrl }}">
+            {% assign webinarIdString = webinar.id %}
+            <form class="webinar-form" method="POST" action="{{ webinarUrl }}" data-enhanced="form-{{ webinar.id}}">
                 <input type="hidden" name="textField" value="{{ webinar.id }}">
                 <input type="hidden" name="forField" value="Watchlist Amber">
 

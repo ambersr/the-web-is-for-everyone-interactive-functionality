@@ -412,6 +412,24 @@ form .watchlist-btn {
     }
 }
 
+/* -------- Loading animation ----------- */
+
+.webinar-form.loading button img {
+    content: url('/assets/loading-icon.svg');
+    font-size: 14px;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 /* ------------------------------ Breadcrumbs ----------------------------------- */
 
 .breadcrumbs {
