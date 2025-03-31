@@ -669,6 +669,10 @@ select {
     gap: 1em;
 }
 
+.contourings h3 {
+    padding-top: 1em;
+}
+
 .contouring {
     position: relative;
 }
