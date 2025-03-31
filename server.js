@@ -71,13 +71,11 @@ app.get("/webinars", async function (req, res) {
   const categoryResponseJSON = await fetchJson(categoryLink);
   const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
 
-  // Zet alle 'text' waardes uit de messages database om in array (map) met strings
   const watchlistIds = watchlistResponseJSON.data.map(item => String(item.text)); 
 
-   //  maak een nieuwe array waarin alle webinars worden gekopieerd, en zet alleen de id's om naar een string
   const webinarsWithStringIds = webinarsResponseJSON.data.map(webinar => ({
-    ...webinar, // Kopieert alles (id, title, date, enz.)
-    id: String(webinar.id) // Zet alleen de ID om naar een string
+    ...webinar,
+    id: String(webinar.id)
   }));
 
   let filteredWebinars = webinarsWithStringIds;
@@ -101,6 +99,7 @@ app.get("/webinars", async function (req, res) {
   res.render('webinars.liquid', {
     webinars: filteredWebinars,
     categories: categoryResponseJSON.data,
+    selectedCategory: categoryFilter, // Zorgt dat de juiste radio button gecheckt blijft
     selectedSort: sortOption,
     watchlistIds: watchlistIds,
     webinarUrl: '/webinars',
