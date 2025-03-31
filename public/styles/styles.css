@@ -278,9 +278,14 @@ footer {
 
 .webinars {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
     gap: 1.5em;
     padding: 1.5em 0em 0em 0em;
+}
+
+@media screen and (min-width: 720px) {
+    .webinars {
+         grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+    }
 }
 
 @supports not (gap: 1.5em) {
@@ -300,6 +305,7 @@ footer {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    width: 100%;
 }
 
 @supports not (gap: 1em) {
