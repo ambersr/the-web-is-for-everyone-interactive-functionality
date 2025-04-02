@@ -46,17 +46,14 @@ app.get('/', async function (req, res) {
   const contouringsResponseJSON = await fetchJson(contouringsLink + contouringsField);
   const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
 
-  const watchlistIds = watchlistResponseJSON.data.map(item => String(item.text));
-
-  const webinarsWithStringIds = webinarsResponseJSON.data.map(webinar => ({
-    ...webinar,
-    id: String(webinar.id)
-  }));
+  const watchlistIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
+   // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
+   const watchlistArray = Array.from(watchlistIds);
 
   res.render("index.liquid", {
-    webinars: webinarsWithStringIds,
+    webinars: webinarsResponseJSON.data,
     contourings: contouringsResponseJSON.data,
-    watchlistIds: watchlistIds,
+    watchlistIds: watchlistArray,
     webinarUrl: '/'
   })
 });
@@ -64,21 +61,18 @@ app.get('/', async function (req, res) {
 // Route voor url /webinars
 app.get("/webinars", async function (req, res) {
   const categoryFilter = req.query.category || ""; // Haalt categorie uit de URL
-  const sortOption = req.query.sort || "new-old"; // Zet standaard de filter van nieuw naar oud
+  const sortOption = req.query.sort || "new-old";
 
   // Fetches webinars en categories
   const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
   const categoryResponseJSON = await fetchJson(categoryLink);
   const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
 
-  const watchlistIds = watchlistResponseJSON.data.map(item => String(item.text)); 
+ const watchlistIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
+   // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
+   const watchlistArray = Array.from(watchlistIds);
 
-  const webinarsWithStringIds = webinarsResponseJSON.data.map(webinar => ({
-    ...webinar,
-    id: String(webinar.id)
-  }));
-
-  let filteredWebinars = webinarsWithStringIds;
+   let filteredWebinars = webinarsResponseJSON.data;
 
   if (categoryFilter) {
     filteredWebinars = filteredWebinars.filter(webinar =>
@@ -93,17 +87,13 @@ app.get("/webinars", async function (req, res) {
     return sortOption === "new-old" ? dateB - dateA : dateA - dateB;
   });
 
-  // Aantal webinars in de gefilterde lijst
-  const filteredCount = filteredWebinars.length;
-
   res.render('webinars.liquid', {
     webinars: filteredWebinars,
     categories: categoryResponseJSON.data,
     selectedCategory: categoryFilter, // Zorgt dat de juiste radio button gecheckt blijft
     selectedSort: sortOption,
-    watchlistIds: watchlistIds,
+    watchlistIds: watchlistArray,
     webinarUrl: '/webinars',
-    filteredCount: filteredCount,
   });
 })
 
@@ -115,19 +105,14 @@ app.get("/webinars/:slug", async function (request, response) {
   const allWebinarsResponseJSON = await fetchJson(webinarsLink + `?fields=title,slug,thumbnail,date,speakers.*`);
   const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
 
-  // Zet alle 'text' waardes uit de messages database om in array (map) met strings
-  const watchlistIds = watchlistResponseJSON.data.map(item => String(item.text));
-
-  //  maak een nieuwe array waarin alle webinars worden gekopieerd, en zet alleen de id's om naar een string
-  const webinarsWithStringIds = webinarsResponseJSON.data.map(webinar => ({
-    ...webinar, // Kopieert alles (id, title, date, enz.)
-    id: String(webinar.id) // Zet alleen de ID om naar een string
-  }));
+ const watchlistIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
+   // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
+   const watchlistArray = Array.from(watchlistIds);
 
   response.render("webinar.liquid", {
-    webinars: webinarsWithStringIds,
+    webinars: webinarResponseJSON.data,
     allWebinars: allWebinarsResponseJSON.data,
-    watchlistIds: watchlistIds,
+    watchlistIds: watchlistArray,
     webinarUrl: '/webinars/:slug'
   });
 })
@@ -136,29 +121,29 @@ app.get('/watchlist', async function (req, res) {
   const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
   const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
 
-  // Zet alle 'text' waardes uit de messages database om in array (map) met strings
-  const watchlistIds = watchlistResponseJSON.data.map(item => String(item.text));
+ // Zet de webinar ID's van de watchlist om in een Set
+   const watchlistWebinarIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
 
-  //  maak een nieuwe array waarin alle webinars worden gekopieerd, en zet alleen de id's om naar een string
-  const webinarsWithStringIds = webinarsResponseJSON.data.map(webinar => ({
-    ...webinar, // Kopieert alles (id, title, date, enz.)
-    id: String(webinar.id) // Zet alleen de ID om naar een string
-  }));
+  // Filter alleen webinars die in de watchlist staan
+   const webinarsInWatchlist = webinarsResponseJSON.data.filter(webinar =>
+     watchlistWebinarIds.has(String(webinar.id))
+   );
 
-  // maak een nieuwe array (filter) aan met alleen de webinars waarvan de id overeenkomt met watchlistId
-  const watchlistWebinars = webinarsWithStringIds.filter(webinar =>
-    watchlistIds.includes(webinar.id) // laa
-  );
+  // Zet de Set om naar een Array zodat Liquid de data correct kan weergeven
+   const watchlistArrays = Array.from(watchlistWebinarIds);
 
   res.render("watchlist.liquid", {
-    webinars: watchlistWebinars,
-    watchlistIds: watchlistIds,
+    webinars: webinarsInWatchlist,
+    watchlistIds: watchlistArrays,
     webinarUrl: '/watchlist'
   });
 });
 
 app.post("/watchlist", async function (req, res) {
-  const { textField, forField } = req.body; // textField is de webinar.id
+   const {
+    textField,
+    forField
+  } = req.body; // textField is de webinar.id
 
   try {
     // Haal de watchlist op
@@ -311,7 +296,6 @@ app.post("/", async function (req, res) {
         }
       });
       console.log(`Verwijderd uit watchlist: ${textField}`);
-
     } else {
       // Voeg het item toe als het niet bestaat
       await fetch(messagesLink, {
