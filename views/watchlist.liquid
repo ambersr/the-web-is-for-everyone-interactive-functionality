@@ -13,15 +13,7 @@
 
     <div class="divider-watchlist width"></div>
 
-    {% if error %}
-    <div class="fallback-webinars">
-        <img src="/assets/error-icon.svg" alt="Error Icon">
-        <p>Oops, something went wrong.
-            Try to reload the page again.</p>
-        <a class="green-link" href="/webinars">Webinars</a>
-    </div>
-
-    {% elsif webinars and webinars.size > 0 %}
+    {% if webinars and webinars.size > 0 %}
     {% render 'partials/webinar-card.liquid', webinars: webinars, watchlistIds: watchlistIds %}
     {% else %}
 
