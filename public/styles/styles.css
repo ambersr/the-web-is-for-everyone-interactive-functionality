@@ -420,6 +420,15 @@ form .watchlist-btn {
 
 /* -------- Loading animation ----------- */
 
+.webinar-form.loading span {
+    display: none;
+}
+
+.webinar-form.loading button::after {
+    content: 'Loading';
+}
+
+
 .webinar-form.loading button img {
     content: url('/assets/loading-icon.svg');
     font-size: 14px;
@@ -601,6 +610,7 @@ select {
 .wrapper-webinars {
     display: flex;
     flex-direction: column;
+    gap: 1em;
 }
 
 .heading-webinars {
