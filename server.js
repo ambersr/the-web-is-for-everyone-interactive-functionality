@@ -320,9 +320,9 @@ app.post("/", async function (req, res) {
 });
 
 // 404 pagina
-app.use((req, res, next) => {
-  res.status(404).render("error.liquid")
-})
+ app.use((req, res, next) => {
+   res.status(404).render("error.liquid")
+ })
 
 app.set('port', process.env.PORT || 8000)
 
