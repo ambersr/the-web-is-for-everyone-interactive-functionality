@@ -149,6 +149,7 @@
 @media screen and (min-width: 720px) {
     .main-nav .mobile-nav {
         z-index: 1;
+        display: none;
     }
 }
 
