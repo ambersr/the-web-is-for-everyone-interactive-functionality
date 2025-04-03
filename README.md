@@ -40,17 +40,11 @@ Ontwikkel een platform waar de focus op webinars ligt.
 ### Het ontwikkelde platform
 In de afgelopen sprint zijn de volgende pagina's ontwikkeld:
 
-- Homepagina: Een introductie van Oncollaboration met een overzicht van webinars en contourings.
+- Homepagina: Een introductie van Oncollaboration met een overzicht van webinars en contourings. [Linkje naar de homepagina](https://the-web-is-for-everyone-interactive-5eue.onrender.com/)
 
-[Linkje naar de homepagina](https://the-web-is-for-everyone-interactive-5eue.onrender.com/)
+- Webinar Overzichtspagina: Een overzicht van alle webinars, waarbij gebruikers kunnen zoeken en filteren op categorie. [Linkje naar de Overzichtspagina](https://the-web-is-for-everyone-interactive-5eue.onrender.com/webinars)
 
-- Webinar Overzichtspagina: Een overzicht van alle webinars, waarbij gebruikers kunnen zoeken en filteren op categorie.
-
-[Linkje naar de Overzichtspagina](https://the-web-is-for-everyone-interactive-5eue.onrender.com/webinars)
-
-- Watchlistpagina: Op deze pagina worden de webinars die door een gebruiker zijn toegevoegd aan de watchlist hier getoond. 
-
-[Linkje naar de Watchlistpagina](https://the-web-is-for-everyone-interactive-5eue.onrender.com/watchlist)
+- Watchlistpagina: Op deze pagina worden de webinars die door een gebruiker zijn toegevoegd aan de watchlist hier getoond. [Linkje naar de Watchlistpagina](https://the-web-is-for-everyone-interactive-5eue.onrender.com/watchlist)
 
 ### Belangrijke features:
 
@@ -87,6 +81,47 @@ In dit project wordt er gebruik gemaakt van Node.js en Express om de webserver t
 - HTML genereren en tonen: Liquid genereert de HTML, die naar de browser wordt gestuurd en zichtbaar wordt voor de gebruiker.
 - Data opslaan wordt uitgevoerd via een POST-aanroep. De server maakt een API-aanroep om de benodigde gegevens op te halen in JSON-formaat en slaat deze op in de database. [Voorbeeld](https://github.com/ambersr/the-web-is-for-everyone-interactive-functionality/blob/0b078ab3d4ce033dbd3151874ab99308c668009e/server.js#L187-L222)
 - Data verwijderen wordt uitgevoerd via een DELETE-aanroep. De server controleert de aanroep en als deze bestaat verwijderd hij de post uit de database. [Voorbeeld](https://github.com/ambersr/the-web-is-for-everyone-interactive-functionality/blob/0b078ab3d4ce033dbd3151874ab99308c668009e/server.js#L187-L222)
+
+### UI States
+
+### Filter webinar
+- **Ideal state:** Wanneer een categorie is geselecteerd en er webinars beschikbaar zijn binnen die categorie, wordt de juiste webinar weergegeven.
+
+**Implementatie:** Dit wordt gerealiseerd met een `if` en `else` tag. Als er één of meerdere webinars beschikbaar zijn, worden deze getoond binnen de geselecteerde categorie. Voorbeeld in mijn code. [Voorbeeld in mijn code](https://github.com/ambersr/the-web-is-for-everyone-interactive-functionality/blob/a2901cf18ddaa5281a811cfb3aaccabab1a3a0ad/views/webinars.liquid#L52-L53)
+
+- **Empty state:** Wanneer er geen webinars beschikbaar zijn voor een bepaalde categorie, wordt dit duidelijk gecommuniceerd via een melding. De gebruiker krijgt het advies om een andere categorie te kiezen, zodat de volgende stap in het proces wordt gestimuleerd. 
+
+Implementatie: Aan de hand van een `if` en `else` tag. Als er geen webinars beschikbaar zijn laat dan de fallback zien. [Voorbeeld in mijn liquid](https://github.com/ambersr/the-web-is-for-everyone-interactive-functionality/blob/a2901cf18ddaa5281a811cfb3aaccabab1a3a0ad/views/webinars.liquid#L54-L60)
+
+<img width="264" alt="image" src="https://github.com/user-attachments/assets/e5c3fda7-0efb-4b97-a747-b98a22302a90" />
+
+### Watchlistpagina
+
+-**Ideal state:** Wanneer er een webinar toegevoegd is aan de watchlist wordt alleen deze webinar(s) laten zien.
+
+Implementatie: Aan de hand van een `if` en `else` tag uitgevoerd. Wanneer 1 of meer webinars in de watchlist zijn toon dan de webinars die zijn toegevoegd aan de watchlist. [Voorbeeld in mijn liquid](https://github.com/ambersr/the-web-is-for-everyone-interactive-functionality/blob/a2901cf18ddaa5281a811cfb3aaccabab1a3a0ad/views/watchlist.liquid#L16-L17)
+
+- **Empty state:** Bij de empty state wordt er aan de hand van een tekst en een icon weergegeven
+
+Implementatie: Uitgevoerd met een `if` en `else` tag. Wanneer er geen webinars zijn toegevoegd aan de watchlist, wordt een fallback weergegeven. Hierin wordt de gebruiker geïnformeerd dat er nog geen webinars in de watchlist staan. Daarnaast wordt de gebruiker gestimuleerd om naar de webinarpagina te gaan via een knop, zodat er eenvoudig webinars aan de watchlist kunnen worden toegevoegd. [Voorbeeld in mijn liquid](https://github.com/ambersr/the-web-is-for-everyone-interactive-functionality/blob/a2901cf18ddaa5281a811cfb3aaccabab1a3a0ad/views/watchlist.liquid#L18-L25)
+
+<img width="312" alt="image" src="https://github.com/user-attachments/assets/6cb1198a-2f01-49b4-94a7-975a781f440d" />
+
+### Webinar kaartjes
+
+- **Ideal state:** Wanneer er nog geen actie is ondernomen om een webinar toe te voegen aan de watchlist, wordt de knop standaard weergegeven als "Add to watchlist".
+
+**Implementatie:** Dit wordt gerealiseerd met `if` en `else` tags. Als de ID van de webinar nog niet in de watchlist staat, wordt het label "Add to watchlist" weergegeven. [Voorbeeld in mijn liquid](https://github.com/ambersr/the-web-is-for-everyone-interactive-functionality/blob/c516c8629087afabfec7355cb89047370143ac21/views/partials/webinar-card.liquid#L27-L30)
+
+- **Loading state:** Zodra de gebruiker op "Add to watchlist" of "Remove from watchlist" klikt, verandert het label naar "Loading", inclusief een laadicoon. Dit geeft visuele feedback dat de actie wordt verwerkt, zoals het toevoegen of verwijderen van een webinar uit de watchlist.
+
+**Implementatie:** Dit wordt uitgevoerd met client-side JavaScript, waarbij de klasse "loading" aan de knop wordt toegevoegd tijdens het laden. Met keyframes wordt een animatie toegepast op het laadicoon. [Voorbeeld javascript code](https://github.com/ambersr/the-web-is-for-everyone-interactive-functionality/blob/c516c8629087afabfec7355cb89047370143ac21/views/webinars.liquid#L86) & [voorbeeld CSS code](https://github.com/ambersr/the-web-is-for-everyone-interactive-functionality/blob/c516c8629087afabfec7355cb89047370143ac21/public/styles/styles.css#L421-L447)
+
+- **Success state:** Wanneer een webinar succesvol is toegevoegd aan de watchlist, verandert de knop van "Add to watchlist" naar "Remove from watchlist", inclusief een aangepast icoon. Dit laat de gebruiker zien dat de actie is voltooid en de webinar zich nu in de watchlist bevindt.
+
+Implementatie: Dit wordt gerealiseerd met `if` en `else` tags. Zodra de webinar-ID is opgeslagen in de database, wordt het label en icoon aangepast naar "Remove from watchlist". [Voorbeeld in mijn liquid](https://github.com/ambersr/the-web-is-for-everyone-interactive-functionality/blob/c516c8629087afabfec7355cb89047370143ac21/views/partials/webinar-card.liquid#L24-L26)
+  
+<img width="679" alt="image" src="https://github.com/user-attachments/assets/1de40e76-1294-46b3-a6a2-d17fec3e93f5" />
 
 ## Installatie
 
