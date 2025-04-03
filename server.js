@@ -97,26 +97,6 @@ app.get("/webinars", async function (req, res) {
   });
 })
 
-// Route voor url /webinar/:slug
-app.get("/webinars/:slug", async function (request, response) {
-  const slug = request.params.slug
-
-  const webinarResponseJSON = await fetchJson(webinarsLink + `?filter[slug]=${slug}&fields=featured,views,id,description,duration,title,slug,date,thumbnail,video,resources,.*.*,speakers.*.*,resources.*.*,categories.avl_categories_id.*`);
-  const allWebinarsResponseJSON = await fetchJson(webinarsLink + `?fields=title,slug,thumbnail,date,speakers.*`);
-  const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
-
- const watchlistIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
-   // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
-   const watchlistArray = Array.from(watchlistIds);
-
-  response.render("webinar.liquid", {
-    webinars: webinarResponseJSON.data,
-    allWebinars: allWebinarsResponseJSON.data,
-    watchlistIds: watchlistArray,
-    webinarUrl: '/webinars/:slug'
-  });
-})
-
 app.get('/watchlist', async function (req, res) {
   const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
   const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
@@ -229,7 +209,7 @@ app.post("/webinars", async function (req, res) {
   }
 });
 
-app.post("/webinars/:slug", async function (req, res) {
+app.post("/", async function (req, res) {
   const {
     textField,
     forField
@@ -267,7 +247,7 @@ app.post("/webinars/:slug", async function (req, res) {
     }
 
     // Stuur de gebruiker terug naar de watchlist pagina
-    res.redirect(303, "/webinars/:slug");
+    res.redirect(303, "/");
   } catch (error) {
     console.error("Fout bij toggle van de watchlist:", error);
     res.status(500).send("Er is een fout opgetreden.");
