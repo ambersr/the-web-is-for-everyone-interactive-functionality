@@ -1,6 +1,6 @@
 {% render 'partials/head.liquid', title: 'Home' %}
 
-<div class="banner-home secondary-background width-top-btm">
+<div class="banner-home secondary-background width-top-btm" id="inhoud">
     <section class="left-banner-home">
         <p>Collaborate, learn & Innovate.</p>
         <h1>The platform where Radiotherapists connect and innovate</h1>
@@ -42,7 +42,8 @@
                     <p class="duration">{{ webinar.duration }}</p>
 
                     {% assign webinarIdString = webinar.id | string | strip %}
-                    <form class="webinar-form" method="POST" action="{{ webinarUrl }}" data-enhanced="form-{{ webinar.id}}">
+                    <form class="webinar-form" method="POST" action="{{ webinarUrl }}"
+                        data-enhanced="form-{{ webinar.id}}">
                         <input type="hidden" name="textField" value="{{ webinar.id }}">
                         <input type="hidden" name="forField" value="Watchlist Amber">
                         <button class="watchlist-btn" type="submit">

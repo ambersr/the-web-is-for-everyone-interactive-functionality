@@ -285,7 +285,7 @@ footer {
 
 @media screen and (min-width: 720px) {
     .webinars {
-         grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
     }
 }
 

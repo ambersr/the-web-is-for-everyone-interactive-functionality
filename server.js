@@ -254,48 +254,33 @@ app.post("/", async function (req, res) {
   }
 });
 
-app.post("/", async function (req, res) {
-  const {
-    textField,
-    forField
-  } = req.body; // textField is de webinar.id
-
+app.post("/watchlist/delete-all", async function (req, res) {
   try {
-    // Haal de watchlist op
-    const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
+    // Haal alle berichten op die in de "Watchlist Amber" staan
+    const watchlistResponse = await fetch(messagesLink + messagesFilter);
+    const watchlistResponseJSON = await watchlistResponse.json();
 
-    // Check of de webinar al in de watchlist zit
-    const existingItem = watchlistResponseJSON.data.find(item => item.text === textField);
+    if (!watchlistResponseJSON.data || watchlistResponseJSON.data.length === 0) {
+      console.log("Geen berichten gevonden in 'Watchlist Amber'.");
+      return res.redirect(303, "/watchlist");
+    }
 
-    if (existingItem) {
-      // Verwijder het item als het al bestaat
-      await fetch(`${messagesLink}/${existingItem.id}`, {
+    // Loop door alle berichten en verwijder ze één voor één
+    for (const item of watchlistResponseJSON.data) {
+      await fetch(`${messagesLink}/${item.id}`, { // String-interpolatie toegevoegd
         method: "DELETE",
         headers: {
           "Content-Type": "application/json;charset=UTF-8"
         }
       });
-      console.log(`Verwijderd uit watchlist: ${textField}`);
-    } else {
-      // Voeg het item toe als het niet bestaat
-      await fetch(messagesLink, {
-        method: "POST",
-        body: JSON.stringify({
-          text: textField,
-          for: forField
-        }),
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8"
-        }
-      });
-      console.log(`Toegevoegd aan watchlist: ${textField}`);
+      console.log(`Verwijderd: ID ${item.id}`); // String-interpolatie toegevoegd
     }
 
-    // Stuur de gebruiker terug naar de watchlist pagina
-    res.redirect(303, "/");
+    console.log("Alle berichten uit 'Watchlist Amber' zijn verwijderd.");
+    res.redirect(303, "/watchlist");
   } catch (error) {
-    console.error("Fout bij toggle van de watchlist:", error);
-    res.status(500).send("Er is een fout opgetreden.");
+    console.error("Fout bij verwijderen van berichten:", error);
+    res.status(500).send("Er is een fout opgetreden bij het verwijderen.");
   }
 });
 
