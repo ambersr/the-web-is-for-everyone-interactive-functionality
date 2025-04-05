@@ -270,36 +270,6 @@ app.post("/", async function (req, res) {
   }
 });
 
-app.post("/watchlist/delete-all", async function (req, res) {
-  try {
-    // Haal alle berichten op die in de "Watchlist Amber" staan
-    const watchlistResponse = await fetch(messagesLink + messagesFilter);
-    const watchlistResponseJSON = await watchlistResponse.json();
-
-    if (!watchlistResponseJSON.data || watchlistResponseJSON.data.length === 0) {
-      console.log("Geen berichten gevonden in 'Watchlist Amber'.");
-      return res.redirect(303, "/watchlist");
-    }
-
-    // Loop door alle berichten en verwijder ze één voor één
-    for (const item of watchlistResponseJSON.data) {
-      await fetch(`${messagesLink}/${item.id}`, { // String-interpolatie toegevoegd
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8"
-        }
-      });
-      console.log(`Verwijderd: ID ${item.id}`); // String-interpolatie toegevoegd
-    }
-
-    console.log("Alle berichten uit 'Watchlist Amber' zijn verwijderd.");
-    res.redirect(303, "/watchlist");
-  } catch (error) {
-    console.error("Fout bij verwijderen van berichten:", error);
-    res.status(500).send("Er is een fout opgetreden bij het verwijderen.");
-  }
-});
-
 // 404 pagina
  app.use((req, res, next) => {
    res.status(404).render("error.liquid")
