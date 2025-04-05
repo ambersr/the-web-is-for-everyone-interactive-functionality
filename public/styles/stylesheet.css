@@ -234,6 +234,24 @@ a {
 
 }
 
+.border-link {
+    background-color: #00000000;
+    color: var(--primary-text-color);
+    border: solid 1.5px var(--primary-background-color, #001432);
+    border-radius: var(--border-radius-md);
+    padding: 1em 1.3em 1em 1.3em;
+    font-family: var(--font-paragraph);
+    height: 3.2em;
+    display: inline-block;
+}
+
+.border-link:hover {
+    color: var(--secondary-text-color);
+    background-color: var(--primary-background-color, #001432);
+    transition: ease-in-out .2s;
+
+}
+
 .profile-link {
     background-color: var(--third-background-color, #fff);
     color: var(--primary-text-color);
