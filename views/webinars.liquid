@@ -13,10 +13,12 @@
     <form class="sort-filter" method="GET" action="/webinars">
         <div class="filter-webinar">
             <p>Filter by category:</p>
-            <!-- Categorie Filter -->
+
             <select name="category" id="category" class="filter-select">
+                <!-- Wanneer 'All' geselecteerd wordt en er is geen categorie geselecteerd of als de geselecteerde categorie een lege waarde heeft. -->
                 <option value="" {% if not selectedCategory or selectedCategory=="" %}selected{% endif %}>All</option>
                 {% for category in categories %}
+                <!-- Als de selectedCategory gelijk is aan de category.name selecteer dan de juiste categorie -->
                 <option value="{{ category.name }}" {% if selectedCategory==category.name %}selected{% endif %}>
                     {{ category.name }}
                 </option>

@@ -41,6 +41,7 @@
 
                     <p class="duration">{{ webinar.duration }}</p>
 
+                    <!-- Filter de webinar ID naar een string en verwijder eventuele spaties -->
                     {% assign webinarIdString = webinar.id | string | strip %}
                     <form class="webinar-form" method="POST" action="{{ webinarUrl }}"
                         data-enhanced="form-{{ webinar.id}}">

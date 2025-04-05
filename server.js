@@ -41,49 +41,67 @@ const messagesFilter = "?filter[for][_eq]=Watchlist Amber"
 
 // Route voor url /
 app.get('/', async function (req, res) {
-  // Fetches webinars, categories, 
+
+  // Fetches alle webinars, alle contourings & watchlist
   const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
   const contouringsResponseJSON = await fetchJson(contouringsLink + contouringsField);
   const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
 
+  // Haalt alle text waarden uit de array watchlist database, deze worden omgezet naar een string. 
+  // De strings worden in een set gestopt zodat er een lijst is met alle unieke ID's
   const watchlistIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
-   // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
-   const watchlistArray = Array.from(watchlistIds);
+  
+  // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
+  // Hierdoor krijg je een array met alle unieke 'text' waarden als strings
+  const watchlistArray = Array.from(watchlistIds);
 
   res.render("index.liquid", {
     webinars: webinarsResponseJSON.data,
     contourings: contouringsResponseJSON.data,
-    watchlistIds: watchlistArray,
-    webinarUrl: '/'
+    watchlistIds: watchlistArray
   })
 });
 
 // Route voor url /webinars
 app.get("/webinars", async function (req, res) {
-  const categoryFilter = req.query.category || ""; // Haalt categorie uit de URL
+  // Haalt de 'category' parameter op, of gebruikt een lege string als die er niet is.
+  // Haalt de 'sort' parameter op, of gebruikt "new-old" als die er niet is.
+  const categoryFilter = req.query.category || ""; 
   const sortOption = req.query.sort || "new-old";
 
-  // Fetches webinars en categories
+  // Fetches alle webinars, categorieën en watchlist 
   const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
   const categoryResponseJSON = await fetchJson(categoryLink);
   const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
 
- const watchlistIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
-   // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
-   const watchlistArray = Array.from(watchlistIds);
+  // Haalt alle text waarden uit de array watchlist database, deze worden omgezet naar een string. 
+  // De strings worden in een set gestopt zodat er een lijst is met alle unieke ID's
+  const watchlistIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
 
-   let filteredWebinars = webinarsResponseJSON.data;
+  // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
+  // Hierdoor krijg je een array met alle unieke 'text' waarden als strings
+  const watchlistArray = Array.from(watchlistIds);
 
+  // Lijst met alle webinars
+  let filteredWebinars = webinarsResponseJSON.data;
+
+  // Sorteren op categorie
   if (categoryFilter) {
-    filteredWebinars = filteredWebinars.filter(webinar =>
+    // Filter de webinars op basis van de opgegeven categorie.
+    filteredWebinars = filteredWebinars.filter(webinar => 
+      // Controleer of het webinar minstens 1 categorie heeft die overeenkomt met categoryFilter.
+      // Some geeft true als 1 of meer categorieën voldoen.
       webinar.categories.some(category => category.avl_categories_id.name === categoryFilter)
     );
   }
 
   // Sorteren op datum
   filteredWebinars.sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
+    const dateA = new Date(a.date); // Zet datum van webinar A om naar een Date-object
+    const dateB = new Date(b.date); // Zet datum van webinar B om naar een Date-object
+
+    // Als sorteeroptie "new-old" is: nieuw eerst (dateB - dateA)
+    // Anders: oud eerst (dateA - dateB)
     return sortOption === "new-old" ? dateB - dateA : dateA - dateB;
   });
 
@@ -92,48 +110,50 @@ app.get("/webinars", async function (req, res) {
     categories: categoryResponseJSON.data,
     selectedCategory: categoryFilter, // Zorgt dat de juiste radio button gecheckt blijft
     selectedSort: sortOption,
-    watchlistIds: watchlistArray,
-    webinarUrl: '/webinars',
+    watchlistIds: watchlistArray
   });
 })
 
 app.get('/watchlist', async function (req, res) {
+
+  // Fetches alle webinars en watchlist 
   const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
   const webinarsResponseJSON = await fetchJson(webinarsLink + webinarsField);
 
- // Zet de webinar ID's van de watchlist om in een Set
-   const watchlistWebinarIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
+  // Haalt alle text waarden uit de array watchlist database, deze worden omgezet naar een string. 
+  // De strings worden in een set gestopt zodat er een lijst is met alle unieke ID's
+  const watchlistWebinarIds = new Set(watchlistResponseJSON.data.map(item => String(item.text)));
 
   // Filter alleen webinars die in de watchlist staan
-   const webinarsInWatchlist = webinarsResponseJSON.data.filter(webinar =>
-     watchlistWebinarIds.has(String(webinar.id))
-   );
+  const webinarsInWatchlist = webinarsResponseJSON.data.filter(webinar =>
+    // Controleer of het ID van het webinar aanwezig is in de watchlist (de Set van IDs)
+    // Het ID wordt omgezet naar een string, omdat de Set 'string' waarden bevat
+    watchlistWebinarIds.has(String(webinar.id))
+  );
 
-  // Zet de Set om naar een Array zodat Liquid de data correct kan weergeven
-   const watchlistArrays = Array.from(watchlistWebinarIds);
+  // Zet de Set om naar een Array, want Liquid kan niet met Sets werken
+  // Hierdoor krijg je een array met alle unieke 'text' waarden als strings
+  const watchlistArrays = Array.from(watchlistWebinarIds);
 
   res.render("watchlist.liquid", {
     webinars: webinarsInWatchlist,
-    watchlistIds: watchlistArrays,
-    webinarUrl: '/watchlist'
+    watchlistIds: watchlistArrays
   });
 });
 
 app.post("/watchlist", async function (req, res) {
-   const {
-    textField,
-    forField
-  } = req.body; // textField is de webinar.id
+  // Haal de textField (webinar.id) en forField uit de request body
+  const { textField, forField } = req.body; // textField is de webinar.id
 
   try {
-    // Haal de watchlist op
+    // Haal de huidige watchlist op
     const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
 
-    // Check of de webinar al in de watchlist zit
+    // Zoek in de watchlist of het item al bestaat door te controleren op textField (webinar.id)
     const existingItem = watchlistResponseJSON.data.find(item => item.text === textField);
 
     if (existingItem) {
-      // Verwijder het item als het al bestaat
+      // Als het item al bestaat in de watchlist, verwijder het dan
       await fetch(`${messagesLink}/${existingItem.id}`, {
         method: "DELETE",
         headers: {
@@ -165,20 +185,18 @@ app.post("/watchlist", async function (req, res) {
 });
 
 app.post("/webinars", async function (req, res) {
-  const {
-    textField,
-    forField
-  } = req.body; // textField is de webinar.id
+  // Haal de textField (webinar.id) en forField uit de request body
+  const { textField, forField } = req.body;
 
   try {
     // Haal de watchlist op
     const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
 
-    // Check of de webinar al in de watchlist zit
+    // Zoek in de watchlist of het item al bestaat door te controleren op textField (webinar.id)
     const existingItem = watchlistResponseJSON.data.find(item => item.text === textField);
 
     if (existingItem) {
-      // Verwijder het item als het al bestaat
+      // Als het item al bestaat in de watchlist, verwijder het dan
       await fetch(`${messagesLink}/${existingItem.id}`, {
         method: "DELETE",
         headers: {
@@ -210,20 +228,18 @@ app.post("/webinars", async function (req, res) {
 });
 
 app.post("/", async function (req, res) {
-  const {
-    textField,
-    forField
-  } = req.body; // textField is de webinar.id
+  // Haal de textField (webinar.id) en forField uit de request body
+  const { textField, forField } = req.body;
 
   try {
     // Haal de watchlist op
     const watchlistResponseJSON = await fetchJson(messagesLink + messagesFilter);
 
-    // Check of de webinar al in de watchlist zit
+    // Zoek in de watchlist of het item al bestaat door te controleren op textField (webinar.id)
     const existingItem = watchlistResponseJSON.data.find(item => item.text === textField);
 
     if (existingItem) {
-      // Verwijder het item als het al bestaat
+      // Als het item al bestaat in de watchlist, verwijder het dan
       await fetch(`${messagesLink}/${existingItem.id}`, {
         method: "DELETE",
         headers: {
