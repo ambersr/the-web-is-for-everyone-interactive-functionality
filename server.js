@@ -270,7 +270,7 @@ app.post("/", async function (req, res) {
   }
 });
 
-// 404 pagina
+// 404 pagina als je de route niet werkt
  app.use((req, res, next) => {
    res.status(404).render("error.liquid")
  })
