@@ -11,6 +11,11 @@ Oncollaboration is een ontwerp voor een online platform voor samenwerking en ken
 
 Ontwikkel een platform waar de focus op webinars ligt.
 
+Link naar de website: https://the-web-is-for-everyone-interactive-5eue.onrender.com/
+
+<img width="1470" height="797" alt="image" src="https://github.com/user-attachments/assets/6052ff6b-9468-4dfb-b5c8-a88efbd9bacc" />
+
+
 ## Inhoudsopgave
 
   * [Beschrijving](#beschrijving)
