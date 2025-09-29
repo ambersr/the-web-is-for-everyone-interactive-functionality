@@ -9,7 +9,7 @@ Oncollaboration is een ontwerp voor een online platform voor samenwerking en ken
 
 ### Vraag opdrachtgever
 
-Ontwikkel een platform waar de focus op webinars ligt.
+Ontwikkel een responsive, toegankelijk en gebruiksvriendelijk platform waar de waarde webinars naar voren komen.
 
 Link naar de website: https://the-web-is-for-everyone-interactive-5eue.onrender.com/
 
